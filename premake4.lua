@@ -39,7 +39,7 @@ solution "SFMLGame"
 		location ( location_path )
 		language "C++"
 		kind "ConsoleApp"
-		files { "src/core/**.cpp", "src/core/**.hpp", "src/core/**.h"}
+		files { "src/core/**.cpp", "src/core/**.hpp", "src/core/**.h", "src/**.h", "src/**.cpp"}
 		includedirs { "src/core", "include", "include/SFML", "include/glm" }
 		links {}
 		

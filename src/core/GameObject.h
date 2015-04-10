@@ -6,10 +6,10 @@ public:
 	GameObject();
 	~GameObject();
 	void SetTexture(sf::Texture* texture);
-	void Update(float dt);
-	void Draw(sf::RenderWindow* window);
+	virtual void Update(float dt);
+	virtual void Draw(sf::RenderWindow* window);
 
-private:
+protected:
 	sf::Sprite	m_Sprite;
 
 	glm::vec2	m_Position;

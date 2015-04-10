@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
+#include "../input/GlobalMouse.h"
 int main() {
 	sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(1280, 720), "Test window");
 	sf::Event event;
@@ -14,9 +15,11 @@ int main() {
 				window.close();
 			}
 		}
-
+		//update input
+		g_Mouse.Update(window);
+		//update game
 		game1.Update(gametimer);
-
+		//render game
 		window.clear();
 		game1.Draw(&window);
 		window.display();

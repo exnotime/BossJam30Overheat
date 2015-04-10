@@ -2,7 +2,7 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
-
+#include "Player.h"
 class GameObject;
 class Game
 {
@@ -16,6 +16,6 @@ private:
 	//these are all just example variables
 	sf::Texture m_Texture;
 	sf::Font m_Font;
-
+	Player m_Player;
 	std::vector<GameObject> m_GameObjects;
 };
