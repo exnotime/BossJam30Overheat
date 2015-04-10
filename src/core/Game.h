@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include "Player.h"
 class GameObject;
+#include "level/Level.h"
+
 class Game
 {
 public:
@@ -18,4 +20,5 @@ private:
 	sf::Font m_Font;
 	Player m_Player;
 	std::vector<GameObject> m_GameObjects;
+	Level					m_Level;
 };

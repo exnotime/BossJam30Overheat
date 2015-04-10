@@ -20,6 +20,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_Player.SetTexture(&m_Texture);
 	m_GameObjects.push_back(go);
 
+	m_Level.Initialize( "asset/levels/0" );
 }
 //update game state
 void Game::Update(sf::Clock& gameTime){
