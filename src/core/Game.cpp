@@ -26,18 +26,15 @@ void Game::Initialize(const sf::RenderWindow& window){
 void Game::Update(sf::Clock& gameTime){
 	float dt = gameTime.restart().asSeconds();
 	m_Player.Update(dt);
-	
 	for (auto& gameobject : m_GameObjects) {
 		gameobject.Update(dt);
 	}
-
 }
 //render game state
 void Game::Draw(sf::RenderWindow* window){
 	g_Camera.Apply(window);
-
-	m_Player.Draw(window);
 	for (auto& gameobject : m_GameObjects) {
 		gameobject.Draw(window);
-	}	
+	}
+	m_Player.Draw(window);
 }
