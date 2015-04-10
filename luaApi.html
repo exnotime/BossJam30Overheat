@@ -1,0 +1,705 @@
+<!DOCTYPE html><html><head><style>table, td, th {    border-top: 1px solid gray;    border-bottom: 1px solid gray;    border-collapse:collapse;	 padding-right: 25px;    padding-bottom: 10px;    vertical-align: top;}th {    background-color: gray;    color: white;}tr:nth-child(even) {background-color: #EEEEEE;}</style></head><body>
+<table>
+<tr>
+<th width="210">
+Name
+</th>
+<th width="200">
+Parameter info
+</th>
+<th width="180">
+Return info
+</th>
+<th width="500">
+Description
+</th>
+</tr>
+<tr>
+<td>
+CreateEntity
+</td>
+<td>
+
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+Will attempt to allocate a new entity.
+</td>
+</tr>
+<tr>
+<td>
+setCameraPosition
+</td>
+<td>
+camera index, x, y, z 
+</td>
+<td>
+
+</td>
+<td>
+Will set the position of the camera at the supplied index
+</td>
+</tr>
+<tr>
+<td>
+setCameraLookAt
+</td>
+<td>
+camera index, x, y, z
+</td>
+<td>
+
+</td>
+<td>
+Will set the camera at the supplied index to look at the position
+</td>
+</tr>
+<tr>
+<td>
+getActiveCamera
+</td>
+<td>
+
+</td>
+<td>
+index
+</td>
+<td>
+Return is the index for the currently active camera
+</td>
+</tr>
+<tr>
+<td>
+setActiveCamera
+</td>
+<td>
+index
+</td>
+<td>
+
+</td>
+<td>
+Will set the active camera to the supplied index.
+</td>
+</tr>
+<tr>
+<td>
+convertToFpsCamera
+</td>
+<td>
+camera index, parent entity, xyz offset, xyz up
+</td>
+<td>
+
+</td>
+<td>
+Makes the camera behave like a fps-camera attatched to the entity with the supplied 			offset and using the up vector as jump direction etc.
+</td>
+</tr>
+<tr>
+<td>
+convertToFreeCamera
+</td>
+<td>
+camera index
+</td>
+<td>
+
+</td>
+<td>
+Makes the camera behave like a free flying camera.
+</td>
+</tr>
+<tr>
+<td>
+checkRay
+</td>
+<td>
+3 float origin, 3 float dir, length, bool
+</td>
+<td>
+distance to hit, position of hit, entity id
+</td>
+<td>
+Will send a ray in the bullet environment and return 5 values. If ray failes all return values will be zero.
+</td>
+</tr>
+<tr>
+<td>
+addSocetConstraint
+</td>
+<td>
+Parent entity, child entity
+</td>
+<td>
+
+</td>
+<td>
+Will connect the parent with the child using a point to point socket.
+</td>
+</tr>
+<tr>
+<td>
+makeChildParent
+</td>
+<td>
+Parent entity, child entity
+</td>
+<td>
+
+</td>
+<td>
+Will connect the parent with the child using the data handler.
+</td>
+</tr>
+<tr>
+<td>
+makeIndependent
+</td>
+<td>
+child entity
+</td>
+<td>
+
+</td>
+<td>
+Will remove child from parent in the dataHandler structure.
+</td>
+</tr>
+<tr>
+<td>
+getParent
+</td>
+<td>
+child entity
+</td>
+<td>
+
+</td>
+<td>
+Will return nil if no parent or integer id of parent
+</td>
+</tr>
+<tr>
+<td>
+getChildren
+</td>
+<td>
+parent entity
+</td>
+<td>
+
+</td>
+<td>
+Will return nil if no children or a table of lua entities of the children
+</td>
+</tr>
+<tr>
+<td>
+addCapsuleShape
+</td>
+<td>
+LuaEntity, radius, height, mass
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to create a capsule shape 			with the supplied properties centered around the objects position.
+</td>
+</tr>
+<tr>
+<td>
+setStaticShapePosition
+</td>
+<td>
+LuaEntity, x, y, z
+</td>
+<td>
+
+</td>
+<td>
+Must be called after creation of the shape bound to the entity. 			Should the mass of the shape be set to 0 the position and rotation must be set explicitly.
+</td>
+</tr>
+<tr>
+<td>
+setStaticShapeRotation
+</td>
+<td>
+LuaEntity, x, y, z
+</td>
+<td>
+
+</td>
+<td>
+Must be called after creation of the shape bound to the entity. 			Should the mass of the shape be set to 0 the position and rotation must be set explicitly.
+</td>
+</tr>
+<tr>
+<td>
+setAngularFactor
+</td>
+<td>
+LuaEntity, x, y, z
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to set the angular factor for the respective ridgidBody.
+</td>
+</tr>
+<tr>
+<td>
+setAlwaysActive
+</td>
+<td>
+LuaEntity, bool
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to set the physics property to always acrive, 			disallowing the physics system from freezing the update.
+</td>
+</tr>
+<tr>
+<td>
+setFrictionCoef
+</td>
+<td>
+LuaEntity, float
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to set the physics friction coefficient to supplied value.
+</td>
+</tr>
+<tr>
+<td>
+getNrCollisions
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+int
+</td>
+<td>
+Will return the number of collisions that has been detected in the latest frame with the physics 			shape associated with the object.
+</td>
+</tr>
+<tr>
+<td>
+makeGhost
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to make the collision shape of the entity to a ghost shape, ignoring gravity and collisions.
+</td>
+</tr>
+<tr>
+<td>
+makeKinematic
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to make the collision shape of the entity to a movable static shape, ignoring gravity and 			moving others but not itself when colliding.
+</td>
+</tr>
+<tr>
+<td>
+create_transformationComponent
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new RenderingComponent for the entity
+</td>
+</tr>
+<tr>
+<td>
+getPosition
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+x, y, z
+</td>
+<td>
+Attempts to retrieve the x, y and z position of the entity.
+</td>
+</tr>
+<tr>
+<td>
+setRenderMe
+</td>
+<td>
+LuaEntity, bool
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to set the renderMe value of the RenderingComponent
+</td>
+</tr>
+<tr>
+<td>
+getRotation
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+x, y, z, w
+</td>
+<td>
+Attempts to retrieve the corresponding rotation quaternion for the entity
+</td>
+</tr>
+<tr>
+<td>
+setRotation
+</td>
+<td>
+LuaEntity, x, y, z, w
+</td>
+<td>
+
+</td>
+<td>
+Attempts to set the corresponding quaternion for the entity
+</td>
+</tr>
+<tr>
+<td>
+getScale
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+x, y, z
+</td>
+<td>
+Attempts to retrieve the corresponding x, y and z scale
+</td>
+</tr>
+<tr>
+<td>
+setScale
+</td>
+<td>
+LuaEntity, x, y, z
+</td>
+<td>
+
+</td>
+<td>
+Attempts to set x, y and z scale for the entity
+</td>
+</tr>
+<tr>
+<td>
+create_lightComponent
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new LightComponent for the entity and initialize the respective bitmask to Render, Light and Point
+</td>
+</tr>
+<tr>
+<td>
+getLightColor
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+r, g, b
+</td>
+<td>
+Attempts to get the color of the corresponding LightComponent
+</td>
+</tr>
+<tr>
+<td>
+setLightColor
+</td>
+<td>
+LuaEntity, r, g, b
+</td>
+<td>
+
+</td>
+<td>
+Attempts to set the color of the corresponding LightComponent
+</td>
+</tr>
+<tr>
+<td>
+getLightSpecular
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+r, g, b
+</td>
+<td>
+Attempts to get the specular color of the corresponding LightComponent
+</td>
+</tr>
+<tr>
+<td>
+setLightSpecular
+</td>
+<td>
+LuaEntity, r, g, b
+</td>
+<td>
+
+</td>
+<td>
+Attempts to set the specular color of the corresponding LightComponent
+</td>
+</tr>
+<tr>
+<td>
+getLightIntensity
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+intensity
+</td>
+<td>
+Attempts to get the intensity of the corresponding LightComponent
+</td>
+</tr>
+<tr>
+<td>
+setLightIntensity
+</td>
+<td>
+LuaEntity, intensity
+</td>
+<td>
+
+</td>
+<td>
+Attempts to set the intensity of the corresponding LightComponent
+</td>
+</tr>
+<tr>
+<td>
+create_renderingComponent
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new RenderingComponent for the entity
+</td>
+</tr>
+<tr>
+<td>
+initializeRenderingComponent
+</td>
+<td>
+LuaEntity, material file, mesh file
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to load mesh and material and assign to the entity. Will use default viewPort, render command and OPAQUE_GEOMETRY type, and set renderMe to true.
+</td>
+</tr>
+<tr>
+<td>
+setMesh
+</td>
+<td>
+LuaEntity, mesh file path
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to set a mesh for the entity
+</td>
+</tr>
+<tr>
+<td>
+setMaterial
+</td>
+<td>
+LuaEntity, material file path
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to set material for the entity
+</td>
+</tr>
+<tr>
+<td>
+removeMesh
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to remove the assigned mesh if present
+</td>
+</tr>
+<tr>
+<td>
+removeMaterial
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to remove the assigned material if present
+</td>
+</tr>
+<tr>
+<td>
+setPosition
+</td>
+<td>
+LuaEntity, x, y, z
+</td>
+<td>
+
+</td>
+<td>
+Attempts to set the position for the object.
+</td>
+</tr>
+<tr>
+<td>
+create_physicsComponent
+</td>
+<td>
+LuaEntity
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new PhysicsComponent for the entity.
+</td>
+</tr>
+<tr>
+<td>
+addPlaneShape
+</td>
+<td>
+LuaEntity, x, y, z, d-value
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new plane shape for the entity.
+</td>
+</tr>
+<tr>
+<td>
+addSphereShape
+</td>
+<td>
+LuaEntity, radius, mass
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new sphere shape for 			the entity and calculate inertia from radius and mass.
+</td>
+</tr>
+<tr>
+<td>
+addTriangleShape
+</td>
+<td>
+LuaEntity, path, scale, mass
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new sphere shape for 			the entity and calculate inertia from radius and mass.
+</td>
+</tr>
+<tr>
+<td>
+addBoxShape
+</td>
+<td>
+LuaEntity, width, height, length, mass
+</td>
+<td>
+
+</td>
+<td>
+Attempts to allocate a new box shape 			for the entity and calculate inertia if mass is not zero.
+</td>
+</tr>
+<tr>
+<td>
+addCylinderShape
+</td>
+<td>
+LuaEntity, radius, height, mass
+</td>
+<td>
+
+</td>
+<td>
+Will attempt to create a shpere shape 			with the supplied properties centered around the objects position.
+</td>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="Windows-1252"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Henrik\Desktop\sfmlGame\src\core\Main.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Henrik\Desktop\sfmlGame\src\core\Game.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\Henrik\Desktop\sfmlGame\src\core\Game.h">
+      <Filter>core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Henrik\Desktop\sfmlGame\src\core\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{068D60C4-03F0-4EF2-BEF0-688256CE00A0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
