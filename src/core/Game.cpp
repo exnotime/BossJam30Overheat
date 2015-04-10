@@ -9,7 +9,7 @@ Game::~Game(){
 }
 //load textures and audio
 void Game::Initialize(const sf::RenderWindow& window){
-	m_Texture.loadFromFile("asset/square.jpg");
+	m_Texture.loadFromFile("asset/TigerCharacterSmaller.png");
 	m_Texture.setSmooth(true); //turn on aa
 
 	m_Font.loadFromFile("asset/arial.ttf");
@@ -35,7 +35,5 @@ void Game::Draw(sf::RenderWindow* window){
 	m_Player.Draw(window);
 	for (auto& gameobject : m_GameObjects) {
 		gameobject.Draw(window);
-	}
-
-	
+	}	
 }

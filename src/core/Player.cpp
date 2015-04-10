@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "../input/GlobalMouse.h"
 Player::Player() {
-	m_Origin = glm::vec2(32);
+	m_Origin = glm::vec2(90, 160);
 	m_Position = glm::vec2(400);
 }
 
