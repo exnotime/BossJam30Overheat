@@ -5,6 +5,7 @@
 #include "Player.h"
 class GameObject;
 #include "level/Level.h"
+#include "Camera.h"
 
 class Game
 {
@@ -16,9 +17,9 @@ public:
 	void Draw(sf::RenderWindow* window);
 private:
 	//these are all just example variables
-	sf::Texture m_Texture;
-	sf::Font m_Font;
-	Player m_Player;
+	sf::Texture				m_Texture;
+	sf::Font				m_Font;
+	Player					m_Player;
 	std::vector<GameObject> m_GameObjects;
 	Level					m_Level;
 };

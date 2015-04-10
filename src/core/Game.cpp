@@ -11,7 +11,7 @@ Game::~Game(){
 void Game::Initialize(const sf::RenderWindow& window){
 	m_Texture.loadFromFile("asset/square.jpg");
 	m_Texture.setSmooth(true); //turn on aa
-
+	
 	m_Font.loadFromFile("asset/arial.ttf");
 
 	GameObject go;
@@ -26,12 +26,16 @@ void Game::Initialize(const sf::RenderWindow& window){
 void Game::Update(sf::Clock& gameTime){
 	float dt = gameTime.restart().asSeconds();
 	m_Player.Update(dt);
+	
 	for (auto& gameobject : m_GameObjects) {
 		gameobject.Update(dt);
 	}
+
 }
 //render game state
 void Game::Draw(sf::RenderWindow* window){
+	g_Camera.Apply(window);
+
 	m_Player.Draw(window);
 	for (auto& gameobject : m_GameObjects) {
 		gameobject.Draw(window);
