@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
 #include "Player.h"
+#include "Enemy.h"
 class GameObject;
 #include "level/Level.h"
 #include "Camera.h"
@@ -15,11 +16,13 @@ public:
 	void Initialize(const sf::RenderWindow& window);
 	void Update(sf::Clock& gameTime);
 	void Draw(sf::RenderWindow* window);
+	void Shutdown();
 private:
 	//these are all just example variables
 	sf::Texture				m_Texture;
 	sf::Font				m_Font;
 	Player					m_Player;
-	std::vector<GameObject> m_GameObjects;
+	std::vector<Enemy>		m_Enemies;
+	std::vector<GameObject*> m_GameObjects;
 	Level					m_Level;
 };
