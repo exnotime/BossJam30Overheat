@@ -3,6 +3,7 @@
 Player::Player() {
 	m_Origin = glm::vec2(90, 160);
 	m_Position = glm::vec2(400);
+	m_Scale = 0.5f;
 }
 
 
