@@ -10,7 +10,8 @@
 #define LEVEL_OBJECT_COLOR_TABLE	sf::Color::Red
 #define LEVEL_OBJECT_COLOR_TABLE_C	sf::Color( 255, 2, 3 )
 #define LEVEL_OBJECT_COLOR_LAMP		sf::Color::Black
-#define LEVEL_OBJECT_COLOR_SOFA		sf::Color::Green
+#define LEVEL_OBJECT_COLOR_BED		sf::Color::Green
+#define LEVEL_OBJECT_COLOR_BED_C	sf::Color( 2, 255, 3 )
 
 void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObject*>& gameObjects ) {
 	m_FloorTextures[ LEVEL_FLOOR_TYPE_AISLE ].loadFromFile( "asset/sprite/floor/aisle.png" );
@@ -19,6 +20,7 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_ARMCHAIR ].loadFromFile( "asset/sprite/furniture/armchair.png" );
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_TABLE ].loadFromFile( "asset/sprite/furniture/table.png" );
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_LAMP ].loadFromFile( "asset/sprite/furniture/lamp.png" );
+	m_ObjectTextures[ LEVEL_OBJECT_TYPE_BED ].loadFromFile( "asset/sprite/furniture/bed.png" );
 
 	for ( int i = 0; i < LEVEL_FLOOR_TYPE_SIZE; ++i ) {
 		m_FloorTextures[i].setSmooth( true );
@@ -100,6 +102,32 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 				lamp->SetRotation( 90.0f * (rand() % 4) );
 
 				gameObjects.push_back( lamp );
+			} else if ( texelColour == LEVEL_OBJECT_COLOR_BED ) {
+				GameObject* bed = new GameObject();
+				bed->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_BED ] );
+				bed->SetSize( glm::vec2( 2.0f, 3.0f ) );
+
+				if ( x < objectMap.getSize().x - 2 && objectMap.getPixel( x + 2, y ) == LEVEL_OBJECT_COLOR_BED ) {
+					objectMap.setPixel( x + 1, y    , LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x + 2, y    , LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x    , y + 1, LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x + 1, y + 1, LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x + 2, y + 1, LEVEL_OBJECT_COLOR_BED_C );
+
+					bed->SetPosition( x + 1.5f, y + 1.0f );
+					bed->SetRotation( 90.0f );
+				} else {
+					objectMap.setPixel( x + 1, y    , LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x    , y + 1, LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x + 1, y + 1, LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x    , y + 2, LEVEL_OBJECT_COLOR_BED_C );
+					objectMap.setPixel( x + 1, y + 2, LEVEL_OBJECT_COLOR_BED_C );
+
+					bed->SetPosition( x + 1.0f, y + 1.5f );
+					bed->SetRotation( 180.0f );
+				}
+
+				gameObjects.push_back( bed );
 			} else {
 				// Do nothing.
 			}
