@@ -206,7 +206,7 @@ sf::FloatRect Player::GetBoundingBoxMaul(){
 	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
 	m_BoundingBoxDirection = aim * 2.0f - 1.0f;
 	m_BoundingBoxDirection = glm::normalize(m_BoundingBoxDirection);
-	tempShape = sf::FloatRect(m_Position.x + 0.8 * m_BoundingBoxDirection.x - 0.5, m_Position.y + 0.8 * m_BoundingBoxDirection.y - 0.5, 1, 1);
+	tempShape = sf::FloatRect(m_Position.x + 0.8f * m_BoundingBoxDirection.x - 0.5f, m_Position.y + 0.8f * m_BoundingBoxDirection.y - 0.5f, 1, 1);
 	return tempShape;
 }
 
@@ -216,7 +216,7 @@ sf::FloatRect Player::GetBoundingBoxPounce(){
 	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
 	m_BoundingBoxDirection = aim * 2.0f - 1.0f;
 	m_BoundingBoxDirection = glm::normalize(m_BoundingBoxDirection);
-	tempShape = sf::FloatRect(m_Position.x + 0.8 * m_BoundingBoxDirection.x - 0.5, m_Position.y + 0.8 * m_BoundingBoxDirection.y - 0.5, 1, 1);
+	tempShape = sf::FloatRect(m_Position.x + 0.8f * m_BoundingBoxDirection.x - 0.5f, m_Position.y + 0.8f * m_BoundingBoxDirection.y - 0.5f, 1, 1);
 	return tempShape;
 }
 
