@@ -61,11 +61,6 @@ void Game::Draw(sf::RenderWindow* window){
 		gameobject->Draw(window);
 	}
 	m_Player.Draw(window);
-
-	sf::RectangleShape tempRect(sf::Vector2<float>(1, 1));
-	tempRect.setFillColor(sf::Color(255, 0, 0, 255));
-	tempRect.setPosition(m_Player.GetBoundingBoxMaul().left, m_Player.GetBoundingBoxMaul().top);
-	window->draw(tempRect);
 }
 
 void Game::Shutdown(){
