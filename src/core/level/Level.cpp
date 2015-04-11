@@ -26,9 +26,10 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 		m_ObjectTextures[i].setSmooth( true );
 	}
 
-	sf::Image floorMap, objectMap;
+	sf::Image floorMap, objectMap, colourMap;
 	floorMap.loadFromFile( levelFolderPath + "/floor.png" );
 	objectMap.loadFromFile( levelFolderPath + "/objects.png" );
+	colourMap.loadFromFile( levelFolderPath + "/colours.png" );
 
 	m_Floor.resize( floorMap.getSize().y );
 	for ( unsigned int y = 0; y < floorMap.getSize().y; ++y ) {
@@ -59,6 +60,7 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 				armchair->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_ARMCHAIR ] );
 				armchair->SetPosition( x + 0.5f, y + 0.5f );
 				armchair->SetSize( glm::vec2( 1.0f ) );
+				armchair->SetColor( colourMap.getPixel( x, y ) );
 
 				if ( y != 0 && ColorIsTable( objectMap.getPixel( x, y - 1 ) ) ) {
 					armchair->SetRotation( 0.0f );
