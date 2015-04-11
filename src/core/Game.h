@@ -2,8 +2,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
-#include "Player.h"
-#include "Enemy.h"
+#include "gameObjects/Player.h"
+#include "gameObjects/Enemy.h"
 class GameObject;
 #include "level/Level.h"
 #include "Camera.h"
