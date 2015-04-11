@@ -11,7 +11,7 @@ public:
 	void Update(float dt) override;
 	void SetEaten(bool eaten);
 private:
-	const float MOVEMENT_SPEED = 3.0f;
+	const float MOVEMENT_SPEED = 0.1f;
 	bool m_Eaten;
 };
 

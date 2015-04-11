@@ -2,9 +2,9 @@
 
 
 Enemy::Enemy(){
-	m_Origin = glm::vec2(20, 20);
+	m_Origin = glm::vec2(60, 30);
 	m_Rotation = 0.0f;
-	m_Direction = glm::vec2(100, 0);
+	m_Direction = glm::vec2(1, 0);
 	m_Eaten = false;
 }
 
@@ -28,7 +28,8 @@ void Enemy::Update(float dt){
 
 	//m_Rotation += MOVEMENT_SPEED * dt;
 	m_Position += MOVEMENT_SPEED * m_Direction * dt;
-
+	//look in the direction we are going
+	m_Rotation = (atan2f(m_Direction.y,m_Direction.x) * 180.0f / 3.14f) + 90.0f; //adjust for sprite
 	GameObject::Update(dt);
 }
 

@@ -10,8 +10,10 @@ Game::~Game(){
 //load textures and audio
 void Game::Initialize(const sf::RenderWindow& window){
 	m_Texture.loadFromFile("asset/TigerCharacterSmaller.png");
+	m_TextureHuman.loadFromFile("asset/sprite/human/human.png");
 	m_Texture.setSmooth(true); //turn on aa
-	
+	m_TextureHuman.setSmooth(true); //turn on aa
+
 	m_Font.loadFromFile("asset/arial.ttf");
 
 	GameObject* go = new GameObject();
@@ -23,9 +25,9 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_Player.SetSize( glm::vec2( 1.0f, 3.0f ) );
 
 	Enemy *enemyTemp = new Enemy();
-	enemyTemp->SetTexture(&m_Texture);
+	enemyTemp->SetTexture(&m_TextureHuman);
 	enemyTemp->SetPosition( 2.0f, 0.5f );
-	enemyTemp->SetSize( glm::vec2( 0.5f, 1.5f ) );
+	enemyTemp->SetSize( glm::vec2( 1.0f, 0.5f ) );
 
 	m_GameObjects.push_back(go);
 	m_GameObjects.push_back(enemyTemp);
