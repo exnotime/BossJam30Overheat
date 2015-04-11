@@ -145,14 +145,38 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 }
 
 void Level::Draw( sf::RenderWindow* window ) const {
-	sf::Sprite sprite;
+	sf::Sprite floorSprite;
 
 	for ( unsigned int y = 0; y < m_Floor.size(); ++y ) {
 		for ( unsigned int x = 0; x < m_Floor[y].size(); ++x ) {
-			sprite.setTexture( m_FloorTextures[ static_cast<unsigned int>(m_Floor[y][x]) ] );
-			sprite.setPosition( static_cast<float>(x), static_cast<float>(y) );
-			sprite.setScale( 1.0f / sprite.getTexture()->getSize().x, 1.0f / sprite.getTexture()->getSize().y );
-			window->draw( sprite );
+			floorSprite.setTexture( m_FloorTextures[ static_cast<unsigned int>(m_Floor[y][x]) ] );
+			floorSprite.setPosition( static_cast<float>(x), static_cast<float>(y) );
+			floorSprite.setScale( 1.0f / floorSprite.getTexture()->getSize().x, 1.0f / floorSprite.getTexture()->getSize().y );
+			window->draw( floorSprite );
+		}
+	}
+
+	sf::RectangleShape border;
+	border.setFillColor( sf::Color( 120, 120, 120 ) );
+	border.setSize( sf::Vector2f( 0.05f, 1.0f ) );
+
+	for ( unsigned int y = 0; y < m_Floor.size(); ++y ) {
+		for ( unsigned int x = 0; x < m_Floor[y].size() - 1; ++x ) {
+			if ( m_Floor[y][x] != m_Floor[y][x + 1] ) {
+				border.setPosition( static_cast<float>(x + 0.975f), static_cast<float>(y) );
+				window->draw( border );
+			}
+		}
+	}
+
+	border.setSize( sf::Vector2f( 1.0f, 0.05f ) );
+	unsigned int y = 0;
+	for ( unsigned int x = 0; x < m_Floor[y].size(); ++x ) {
+		for ( y = 0; y < m_Floor.size() - 1; ++y ) {
+			if ( m_Floor[y][x] != m_Floor[y + 1][x] ) {
+				border.setPosition( static_cast<float>(x), static_cast<float>(y + 0.975f) );
+				window->draw( border );
+			}
 		}
 	}
 }
