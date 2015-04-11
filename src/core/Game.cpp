@@ -51,6 +51,8 @@ void Game::Update(sf::Clock& gameTime){
 //render game state
 void Game::Draw(sf::RenderWindow* window){
 	g_Camera.Apply(window);
+	m_Level.Draw( window );
+
 	m_Player.Draw(window);
 	for (auto& enemy : m_Enemies) {
 		enemy.Draw(window);
