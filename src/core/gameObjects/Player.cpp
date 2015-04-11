@@ -30,9 +30,9 @@ Player::~Player() {
 
 void Player::Update(float dt) {
 	
-	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
-	aim = aim * 2.0f - 1.0f;
-	m_Rotation = (atan2f(aim.y, aim.x) + 3.14f * 0.5f) * 180.0f / 3.14f; //adjust for sprite
+	m_Aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
+	m_Aim = m_Aim * 2.0f - 1.0f;
+	m_Rotation = (atan2f(m_Aim.y, m_Aim.x) + 3.14f * 0.5f) * 180.0f / 3.14f; //adjust for sprite
 	sf::Keyboard kb;
 	m_Direction = glm::vec2(0);
 	if (kb.isKeyPressed(sf::Keyboard::W)){
@@ -119,17 +119,23 @@ void Player::Pounce(){
 }
 
 sf::FloatRect Player::GetBoundingBoxMaul(){
-	sf::FloatRect rect, temp;
-	temp = m_Sprite.getGlobalBounds();
-	rect = sf::FloatRect(temp.left, temp.top + 1, 120, 50);
-	return temp;
+	sf::FloatRect tempShape;
+
+	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
+	m_BoundingBoxDirection = aim * 2.0f - 1.0f;
+	m_BoundingBoxDirection = glm::normalize(m_BoundingBoxDirection);
+	tempShape = sf::FloatRect(m_Position.x + 0.8 * m_BoundingBoxDirection.x - 0.5, m_Position.y + 0.8 * m_BoundingBoxDirection.y - 0.5, 1, 1);
+	return tempShape;
 }
 
 sf::FloatRect Player::GetBoundingBoxPounce(){
-	sf::FloatRect rect, temp;
-	temp = m_Sprite.getGlobalBounds();
-	rect = sf::FloatRect(temp.left, temp.top + 100, 120, 50);
-	return temp;
+	sf::FloatRect tempShape;
+
+	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
+	m_BoundingBoxDirection = aim * 2.0f - 1.0f;
+	m_BoundingBoxDirection = glm::normalize(m_BoundingBoxDirection);
+	tempShape = sf::FloatRect(m_Position.x + 0.8 * m_BoundingBoxDirection.x - 0.5, m_Position.y + 0.8 * m_BoundingBoxDirection.y - 0.5, 1, 1);
+	return tempShape;
 }
 
 float Player::GetDamage(){

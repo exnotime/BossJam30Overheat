@@ -12,6 +12,7 @@ public:
 	float GetDamage();
 	bool GetMauling();
 	bool GetPouncing();
+	glm::vec2 m_BoundingBoxDirection;
 private:
 	const float DEFAULT_SPEED = 4.0f;
 	float m_MovementSpeed = DEFAULT_SPEED;
@@ -40,4 +41,6 @@ private:
 	float m_AnimationTimer = 0.0f;
 	static const int m_RunningAnimation[];
 	static const int m_WalkAnimation[];
+
+	glm::vec2 m_Aim;
 };
