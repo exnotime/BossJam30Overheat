@@ -9,7 +9,7 @@ Game::~Game(){
 }
 //load textures and audio
 void Game::Initialize(const sf::RenderWindow& window){
-	m_Level.Initialize( "asset/levels/0", m_GameObjects );
+	m_Level.Initialize( "asset/levels/1", m_GameObjects );
 
 	m_TextureHuman.loadFromFile("asset/sprite/human/human.png");
 	m_TextureHuman.setSmooth(true); //turn on aa
