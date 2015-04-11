@@ -9,6 +9,7 @@ public:
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow* window);
 	virtual void SetPosition(float x, float y);
+	virtual void SetRotation(float rot);
 	virtual void SetSize( const glm::vec2& newSize );
 	virtual sf::FloatRect GetBoundingBox();
 	virtual glm::vec2 GetPosition();

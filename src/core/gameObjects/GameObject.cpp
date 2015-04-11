@@ -24,10 +24,17 @@ void GameObject::Draw(sf::RenderWindow* window) {
 
 void GameObject::SetTexture(sf::Texture* texture) {
 	m_Sprite.setTexture(*texture);
+
+	m_Origin.x = 0.5f * texture->getSize().x;
+	m_Origin.y = 0.5f * texture->getSize().y;
 }
 
 void GameObject::SetPosition(float x, float y){
 	m_Position = glm::vec2(x, y);
+}
+
+void GameObject::SetRotation(float rot) {
+	m_Rotation = rot;
 }
 
 void GameObject::SetSize( const glm::vec2& newSize ) {

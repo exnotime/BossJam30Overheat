@@ -55,8 +55,9 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 			} else if ( texelColour == LEVEL_OBJECT_COLOR_ARMCHAIR ) {
 				GameObject* armchair = new GameObject();
 				armchair->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_ARMCHAIR ] );
-				armchair->SetPosition( static_cast<float>(x), static_cast<float>(y) );
+				armchair->SetPosition( x + 0.5f, y + 0.5f );
 				armchair->SetSize( glm::vec2( 1.0f ) );
+				armchair->SetRotation( 90.0f * (rand() % 4) );
 				gameObjects.push_back( armchair );
 			} else {
 				// Do nothing.
