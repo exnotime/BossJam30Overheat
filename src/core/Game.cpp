@@ -74,7 +74,7 @@ void Game::Update(sf::Clock& gameTime){
 		m_GameObjects.push_back(it);
 	}
 	objectsToBeAdded.clear();
-	for (int i = 0; i < m_GameObjects.size(); i++){
+	for (int i = 0; i < (int)m_GameObjects.size(); i++){
 		if (m_GameObjects[i]->IsDead()){
 			delete m_GameObjects[i];
 			m_GameObjects.erase(m_GameObjects.begin() + i);
@@ -111,12 +111,12 @@ void Game::CheckCollisions(){
 	for (auto& gameobject : m_GameObjects) {
 		Enemy* enemy = dynamic_cast<Enemy*>(gameobject);
 		if (enemy){
-			if (!enemy->GetEaten()){
+			if (!enemy->IsDead()){
 				if (m_Player.GetMauling()){
 					if (m_Player.GetBoundingBoxMaul().intersects(gameobject->GetBoundingBox()))
 					{
 						enemy->TakeDamage(m_Player.GetDamage());
-						if (enemy->GetEaten()){
+						if (enemy->IsDead()){
 							GiveScore(100);
 						}
 					}
@@ -125,7 +125,7 @@ void Game::CheckCollisions(){
 					if (m_Player.GetBoundingBoxPounce().intersects(gameobject->GetBoundingBox()))
 					{
 						enemy->TakeDamage(m_Player.GetDamage());
-						if (enemy->GetEaten()){
+						if (enemy->IsDead()){
 							GiveScore(200);
 						}
 					}
