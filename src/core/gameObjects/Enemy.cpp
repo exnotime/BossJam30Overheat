@@ -6,6 +6,7 @@ Enemy::Enemy(){
 	m_Rotation = 0.0f;
 	m_Direction = glm::vec2(1, 0);
 	m_Eaten = false;
+	m_HP = 100.0f;
 }
 
 

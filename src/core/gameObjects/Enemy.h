@@ -13,5 +13,6 @@ public:
 private:
 	const float MOVEMENT_SPEED = 0.1f;
 	bool m_Eaten;
+	float m_HP;
 };
 
