@@ -37,4 +37,6 @@ private:
 	sf::Text				m_TextHighScore;
 	sf::Text				m_TextKillCount;
 	float 					m_EnemySpawnTimer;
+	sf::Text				m_TextKillStreak;
+	float					m_TimerKillStreak;
 };

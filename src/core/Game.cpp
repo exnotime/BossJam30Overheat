@@ -30,12 +30,15 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_HighScore = 0;
 	m_KillCount = 0;
 	m_KillStreak = 0;
+	m_TimerKillStreak = 0.0f;
 	m_TextHighScore = sf::Text("HighScore: ", m_Font, 30);
 	m_TextHighScore.setPosition(-630, -350);
 	m_TextHighScore.setString("HighScore: " + std::to_string(m_HighScore));
 	m_TextKillCount = sf::Text("Killcount: ", m_Font, 30);
 	m_TextKillCount.setPosition(-630, -310);
 	m_TextKillCount.setString("Killcount: " + std::to_string(m_KillCount));
+	m_TextKillStreak = sf::Text("", m_Font, 50);
+	m_TextKillStreak.setPosition(-100, 0);
 
 	m_EnemySpawnTimer = 5.0f;
 
@@ -91,7 +94,29 @@ void Game::Update(sf::Clock& gameTime){
 		m_EnemySpawnTimer = 5.0f;
 	}
 	CheckCollisions();
-
+	m_TimerKillStreak -= dt;
+	if (m_TimerKillStreak < 0.0f){
+		if (m_TimerKillStreak < -3.0f){
+			m_TextKillStreak.setString("");
+		}
+		if (m_KillStreak >= 3){
+			m_TextKillStreak.setString("WOW you love swedes!");
+			m_HighScore += 1000;
+		}
+		if (m_KillStreak >= 5){
+			m_TextKillStreak.setString("Careful you are getting sick of meatballs!");
+			m_HighScore += 2000;
+		}
+		if (m_KillStreak >= 8){
+			m_TextKillStreak.setString("Keep Eating and even Ingrad Kamprad will look tasty");
+			m_HighScore += 5000;
+		}
+		if (m_KillStreak >= 10){
+			m_TextKillStreak.setString("Swedes are now hailing the TigerKING");
+			m_HighScore += 10000;
+		}
+		m_KillStreak = 0;
+	}
 	m_TextHighScore.setString("HighScore: " + std::to_string(m_HighScore));
 	m_TextKillCount.setString("Killcount: " + std::to_string(m_KillCount));
 }
@@ -107,6 +132,7 @@ void Game::Draw(sf::RenderWindow* window){
 	g_Camera.ApplyGUI(window);
 	window->draw(m_TextHighScore);
 	window->draw(m_TextKillCount);
+	window->draw(m_TextKillStreak);
 }
 
 void Game::Shutdown(){
@@ -148,4 +174,5 @@ void Game::GiveScore(unsigned int points){
 	m_HighScore += points;
 	m_KillCount += 1;
 	m_KillStreak += 1;
+	m_TimerKillStreak = 3.0f;
 }
