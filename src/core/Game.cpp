@@ -15,6 +15,8 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_TextureHuman.setSmooth(true); //turn on aa
 	m_DeadEnemyTexture.loadFromFile("asset/sprite/human/dead.png");
 	m_DeadEnemyTexture.setSmooth(true);
+	m_TextureBossman.loadFromFile("asset/sprite/boss/Bossen.png");
+	m_DeadEnemyTexture.setSmooth(true);
 	m_Font.loadFromFile("asset/arial.ttf");
 
 	m_Player.SetPosition( 27.0f, 43.0f );
@@ -26,6 +28,10 @@ void Game::Initialize(const sf::RenderWindow& window){
 	enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
 	enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
 	m_GameObjects.push_back(enemyTemp);
+
+	m_Boss.SetPosition( 20.0f, 20.0f );
+	m_Boss.SetSize(glm::vec2(2.0f, 1.28f));
+	m_Boss.SetTexture(&m_TextureBossman);
 
 	m_HighScore = 0;
 	m_KillCount = 0;
@@ -50,6 +56,8 @@ void Game::Update(sf::Clock& gameTime){
 	float dt = gameTime.restart().asSeconds();
 	m_Player.Update(dt);
 	m_Player.ContainWithinLevel( m_Level );
+
+	m_Boss.Update(dt);
 
 	std::vector<GameObject*> objectsToBeAdded;
 	for (auto& gameobject : m_GameObjects) {
@@ -138,6 +146,7 @@ void Game::Draw(sf::RenderWindow* window){
 		gameobject->Draw(window);
 	}
 	m_Player.Draw(window);
+	m_Boss.Draw(window);
 	g_Camera.ApplyGUI(window);
 	window->draw(m_TextHighScore);
 	window->draw(m_TextKillCount);

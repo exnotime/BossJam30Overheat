@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include "gameObjects/Player.h"
 #include "gameObjects/Enemy.h"
+#include "gameObjects/Boss.h"
 class GameObject;
 #include "level/Level.h"
 #include "Camera.h"
@@ -26,9 +27,11 @@ private:
 	sf::Texture				m_Texture;
 	sf::Texture				m_TextureHuman;
 	sf::Texture				m_DeadEnemyTexture;
+	sf::Texture				m_TextureBossman;
 	sf::Font				m_Font;
 	Player					m_Player;
 	std::vector<GameObject*> m_GameObjects;
+	Boss					m_Boss;
 	Level					m_Level;
 
 	unsigned int			m_HighScore;
