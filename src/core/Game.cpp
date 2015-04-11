@@ -11,16 +11,10 @@ Game::~Game(){
 void Game::Initialize(const sf::RenderWindow& window){
 	m_Level.Initialize( "asset/levels/0", m_GameObjects );
 
-	m_Texture.loadFromFile("asset/TigerCharacterSmaller.png");
 	m_TextureHuman.loadFromFile("asset/sprite/human/human.png");
-	m_Texture.setSmooth(true); //turn on aa
 	m_TextureHuman.setSmooth(true); //turn on aa
 
 	m_Font.loadFromFile("asset/arial.ttf");
-
-	GameObject* go = new GameObject();
-	go->SetTexture(&m_Texture);
-	go->SetSize( glm::vec2( 2.0f, 6.0f ) );
 
 	m_Player.SetPosition( 0.0f, 0.0f );
 	m_Player.SetSize( glm::vec2( 1.0f, 3.0f ) );
@@ -30,7 +24,6 @@ void Game::Initialize(const sf::RenderWindow& window){
 	enemyTemp->SetPosition( 5.0f, 0.5f );
 	enemyTemp->SetSize( glm::vec2( 0.6f, 0.5f ) );
 
-	m_GameObjects.push_back(go);
 	m_GameObjects.push_back(enemyTemp);
 }
 //update game state
