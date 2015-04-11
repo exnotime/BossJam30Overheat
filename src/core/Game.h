@@ -36,4 +36,5 @@ private:
 	unsigned int			m_KillStreak;
 	sf::Text				m_TextHighScore;
 	sf::Text				m_TextKillCount;
+	float 					m_EnemySpawnTimer;
 };

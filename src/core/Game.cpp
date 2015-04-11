@@ -37,6 +37,8 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_TextKillCount.setPosition(-630, -310);
 	m_TextKillCount.setString("Killcount: " + std::to_string(m_KillCount));
 
+	m_EnemySpawnTimer = 5.0f;
+
 }
 //update game state
 void Game::Update(sf::Clock& gameTime){
@@ -49,10 +51,6 @@ void Game::Update(sf::Clock& gameTime){
 		gameobject->Update(dt);
 		Enemy* enemy = dynamic_cast<Enemy*>(gameobject);
 		if (enemy){
-			if (m_Player.GetBoundingBox().intersects(gameobject->GetBoundingBox()))
-			{
-				enemy->SetDead(true);
-			}
 
 			if (glm::length(m_Player.GetPosition() - enemy->GetPosition()) < 5.0f){
 				enemy->SetAlert(true);
@@ -80,6 +78,17 @@ void Game::Update(sf::Clock& gameTime){
 			m_GameObjects.erase(m_GameObjects.begin() + i);
 			i--;
 		}
+	}
+	m_EnemySpawnTimer -= dt;
+	if (m_EnemySpawnTimer <= 0.0f){
+		Enemy *enemyTemp = new Enemy();
+		enemyTemp->SetTexture(&m_TextureHuman);
+		glm::vec2 pos = m_Level.GetRandomFreeTile();
+		enemyTemp->SetPosition(pos.x,pos.y );
+		enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
+		enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
+		m_GameObjects.push_back(enemyTemp);
+		m_EnemySpawnTimer = 5.0f;
 	}
 	CheckCollisions();
 

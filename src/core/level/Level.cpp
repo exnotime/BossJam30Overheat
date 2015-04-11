@@ -36,7 +36,7 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 	objectMap.loadFromFile( levelFolderPath + "/objects.png" );
 	colourMap.loadFromFile( levelFolderPath + "/colours.png" );
 	POIMap.loadFromFile(levelFolderPath + "/PathPoints.png");
-
+	m_LevelSize = glm::vec2(floorMap.getSize().x, floorMap.getSize().y);
 	m_Floor.resize( floorMap.getSize().y );
 	for ( unsigned int y = 0; y < floorMap.getSize().y; ++y ) {
 		m_Floor[y].resize( floorMap.getSize().x );
@@ -228,4 +228,16 @@ bool Level::IsTileBlocked( int x, int y ) const {
 		return true;
 	}
 	return m_BlockedTiles[y][x];
+}
+
+glm::vec2 Level::GetRandomFreeTile(){
+	while (true){
+		int randomX = rand() % (int)m_LevelSize.x;
+		int randomY = rand() % (int)m_LevelSize.y;
+
+		if (!IsTileBlocked(randomX, randomY)){
+			return glm::vec2(randomX + 0.5f, randomY + 0.5f);
+		}
+	}
+
 }

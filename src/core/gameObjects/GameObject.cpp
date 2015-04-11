@@ -65,3 +65,10 @@ sf::FloatRect GameObject::GetBoundingBox(){
 glm::vec2 GameObject::GetPosition(){
 	return m_Position;
 }
+
+bool GameObject::IsDead() {
+	return m_Dead;
+}
+void GameObject::SetDead(bool d) { 
+	m_Dead = d;
+}
