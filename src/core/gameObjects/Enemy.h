@@ -14,14 +14,18 @@ public:
 	void SetGoal(glm::vec2 goal);
 	void TakeDamage(float damage);
 	void UpdatePOI(Level& level);
+
+	float GetVisionDist();
+	float GetVisionCone();
 private:
 	float m_MovementSpeed = 1.0f;
 	float m_AnimationTimer = 0.0f;
 	glm::vec2 m_Goal;
 	glm::vec2 m_OldGoal;
-
 	bool m_Walking = true;
 	static const int m_RunningAnimation[];
 	static const int m_WalkAnimation[];
 	float m_HP;
+	float m_VisionCone; //cos(angle)
+	float m_VisionDistance;
 };

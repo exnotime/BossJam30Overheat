@@ -54,8 +54,10 @@ void Game::Update(sf::Clock& gameTime){
 		gameobject->Update(dt);
 		Enemy* enemy = dynamic_cast<Enemy*>(gameobject);
 		if (enemy){
-
-			if (glm::length(m_Player.GetPosition() - enemy->GetPosition()) < 5.0f){
+			//calc vision cone
+			glm::vec2 enemyToPlayer = m_Player.GetPosition() - enemy->GetPosition();
+			float angle = glm::dot(glm::normalize(enemyToPlayer), glm::normalize(enemy->GetDirection()));
+			if (glm::length(enemyToPlayer) < enemy->GetVisionDist() && angle > enemy->GetVisionCone()){
 				enemy->SetAlert(true);
 			} else {
 				enemy->SetAlert(false);
