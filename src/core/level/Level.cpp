@@ -55,13 +55,18 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 		}
 	}
 
+	m_BlockedTiles.resize( objectMap.getSize().y );
 	for ( unsigned int y = 0; y < objectMap.getSize().y; ++y ) {
+		m_BlockedTiles[y].resize( objectMap.getSize().x );
+
 		for ( unsigned int x = 0; x < objectMap.getSize().x; ++x ) {
 			sf::Color texelColour = objectMap.getPixel( x, y );
 
 			if ( texelColour == LEVEL_OBJECT_COLOR_NONE ) {
-				// Do nothing.
+				m_BlockedTiles[y][x] = false;
 			} else if ( texelColour == LEVEL_OBJECT_COLOR_ARMCHAIR ) {
+				m_BlockedTiles[y][x] = true;
+			
 				GameObject* armchair = new GameObject();
 				armchair->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_ARMCHAIR ] );
 				armchair->SetPosition( x + 0.5f, y + 0.5f );
@@ -82,6 +87,8 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 
 				gameObjects.push_back( armchair );
 			} else if ( texelColour == LEVEL_OBJECT_COLOR_TABLE ) {
+				m_BlockedTiles[y][x] = true;
+			
 				GameObject* table = new GameObject();
 				table->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_TABLE ] );
 				table->SetPosition( x + 0.5f, y + 0.5f );
@@ -97,6 +104,8 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 				}
 				gameObjects.push_back( table );
 			} else if ( texelColour == LEVEL_OBJECT_COLOR_LAMP ) {
+				m_BlockedTiles[y][x] = true;
+			
 				GameObject* lamp = new GameObject();
 				lamp->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_LAMP ] );
 				lamp->SetPosition( x + 0.5f, y + 0.5f );
@@ -105,6 +114,8 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 
 				gameObjects.push_back( lamp );
 			} else if ( texelColour == LEVEL_OBJECT_COLOR_BED ) {
+				m_BlockedTiles[y][x] = true;
+			
 				GameObject* bed = new GameObject();
 				bed->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_BED ] );
 				bed->SetSize( glm::vec2( 2.0f, 3.0f ) );
@@ -131,6 +142,8 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 
 				gameObjects.push_back( bed );
 			} else if ( texelColour == LEVEL_OBJECT_COLOR_WALL ) {
+				m_BlockedTiles[y][x] = true;
+			
 				GameObject* wall = new GameObject();
 				wall->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_WALL ] );
 				wall->SetPosition( x + 0.5f, y + 0.5f );
@@ -138,8 +151,10 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 				wall->SetColor( sf::Color( 20, 20, 20 ) );
 
 				gameObjects.push_back( wall );
+			} else if ( texelColour == LEVEL_OBJECT_COLOR_TABLE_C || texelColour == LEVEL_OBJECT_COLOR_BED_C ) {
+				m_BlockedTiles[y][x] = true;
 			} else {
-				// Do nothing.
+				m_BlockedTiles[y][x] = false;
 			}
 		}
 	}
@@ -206,4 +221,11 @@ glm::vec2 Level::GetClosestPOI(glm::vec2 pos, glm::vec2 currentGoal, glm::vec2 o
 		}
 	}
 	return closest;
+}
+
+bool Level::IsTileBlocked( int x, int y ) const {
+	if ( x < 0 || y < 0 || y >= m_BlockedTiles.size() || x >= m_BlockedTiles[y].size() ) {
+		return true;
+	}
+	return m_BlockedTiles[y][x];
 }

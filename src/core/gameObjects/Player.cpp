@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "../input/GlobalMouse.h"
 #include "Camera.h"
+#include "../level/Level.h"
 
 const int Player::m_RunningAnimation[6] = { 0, 1, 2, 3, 4, 5 };
 const int Player::m_WalkAnimation[6] = { 0, 1, 2, 3, 4, 5 };
@@ -116,6 +117,72 @@ void Player::Pounce(){
 	m_PounceDirection = aim * 2.0f - 1.0f;
 	m_PounceDirection = glm::normalize(m_PounceDirection);
 	m_Pouncing = true;
+}
+
+void Player::ContainWithinLevel( const Level& level ) {
+	const glm::ivec2 playerTilePosition( m_Position );
+
+	for ( int y = playerTilePosition.y - 1; y <= playerTilePosition.y + 1; ++y )
+	{
+		for ( int x = playerTilePosition.x - 1; x <= playerTilePosition.x + 1; ++x )
+		{
+			if ( !level.IsTileBlocked( x, y ) )
+				continue;
+
+			const glm::vec2 wallPosition( x + 0.5f, y + 0.5f );
+			const glm::vec2 wallSize( 1.0f );
+
+			const float playerSize = 2.0f * COLLISION_RADIUS;
+			const glm::vec2 toPlayer = m_Position - wallPosition;
+
+			if ( glm::abs( toPlayer.y ) < glm::abs( toPlayer.x ) )
+			{
+				if ( toPlayer.x < 0.0f )
+				{
+					float playerRight	= m_Position.x + (0.5f * playerSize);
+					float wallLeft		= wallPosition.x - (0.5f * wallSize.x);
+					float depth			= playerRight - wallLeft;
+					if ( depth >= 0.0f && glm::abs( toPlayer.y ) <= 0.5f * (playerSize + wallSize.y) )
+					{
+						m_Position.x -= depth;
+					}
+				}
+				else if ( toPlayer.x > 0.0f )
+				{
+					float playerLeft	= m_Position.x - (0.5f * playerSize);
+					float wallRight		= wallPosition.x + (0.5f * wallSize.x);
+					float depth			= wallRight - playerLeft;
+					if ( depth >= 0.0f && glm::abs( toPlayer.y ) <= 0.5f * (playerSize + wallSize.y) )
+					{
+						m_Position.x += depth;
+					}
+				}
+			}
+			else
+			{
+				if ( toPlayer.y < 0.0f )
+				{
+					float playerBottom	= m_Position.y + (0.5f * playerSize);
+					float wallTop		= wallPosition.y - (0.5f * wallSize.y);
+					float depth			= playerBottom - wallTop;
+					if ( depth >= 0.0f && glm::abs( toPlayer.x ) <= 0.5f * (playerSize + wallSize.x) )
+					{
+						m_Position.y -= depth;
+					}
+				}
+				else if ( toPlayer.y > 0.0f )
+				{
+					float playerTop		= m_Position.y - (0.5f * playerSize);
+					float wallBottom	= wallPosition.y + (0.5f * wallSize.y);
+					float depth			= wallBottom - playerTop;
+					if ( depth >= 0.0f && glm::abs( toPlayer.x ) <= 0.5f * (playerSize + wallSize.x) )
+					{
+						m_Position.y += depth;
+					}
+				}
+			}
+		}
+	}
 }
 
 sf::FloatRect Player::GetBoundingBoxMaul(){

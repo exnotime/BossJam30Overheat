@@ -1,11 +1,15 @@
 #pragma once
 #include "GameObject.h"
 #include <SFML/System.hpp>
+
+class Level;
+
 class Player : public GameObject {
 public:
 	Player();
 	~Player();
 	virtual void Update(float dt);
+	void ContainWithinLevel( const Level& level );
 
 	sf::FloatRect GetBoundingBoxMaul();
 	sf::FloatRect GetBoundingBoxPounce();
@@ -20,6 +24,7 @@ private:
 	const float MAUL_DELAY = -0.2f;
 	const float POUNCETIME = 0.2f;
 	const float POUNCE_DELAY = -3.0f;
+	const float COLLISION_RADIUS = 0.4f;
 	
 
 	void CheckAttack(float dt);

@@ -30,6 +30,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 void Game::Update(sf::Clock& gameTime){
 	float dt = gameTime.restart().asSeconds();
 	m_Player.Update(dt);
+	m_Player.ContainWithinLevel( m_Level );
 
 	for (auto& gameobject : m_GameObjects) {
 		gameobject->Update(dt);
