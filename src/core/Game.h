@@ -23,6 +23,7 @@ private:
 	//these are all just example variables
 	sf::Texture				m_Texture;
 	sf::Texture				m_TextureHuman;
+	sf::Texture				m_DeadEnemyTexture;
 	sf::Font				m_Font;
 	Player					m_Player;
 	std::vector<GameObject*> m_GameObjects;
