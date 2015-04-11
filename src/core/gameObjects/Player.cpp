@@ -121,6 +121,8 @@ void Player::Pounce(){
 
 void Player::ContainWithinLevel( const Level& level ) {
 	const glm::ivec2 playerTilePosition( m_Position );
+	
+	bool collision = false;
 
 	for ( int y = playerTilePosition.y - 1; y <= playerTilePosition.y + 1; ++y )
 	{
@@ -144,7 +146,8 @@ void Player::ContainWithinLevel( const Level& level ) {
 					float depth			= playerRight - wallLeft;
 					if ( depth >= 0.0f && glm::abs( toPlayer.y ) <= 0.5f * (playerSize + wallSize.y) )
 					{
-						m_Position.x -= depth;
+						m_Position.x -= depth + 0.001f;
+						collision = true;
 					}
 				}
 				else if ( toPlayer.x > 0.0f )
@@ -154,7 +157,8 @@ void Player::ContainWithinLevel( const Level& level ) {
 					float depth			= wallRight - playerLeft;
 					if ( depth >= 0.0f && glm::abs( toPlayer.y ) <= 0.5f * (playerSize + wallSize.y) )
 					{
-						m_Position.x += depth;
+						m_Position.x += depth + 0.001f;
+						collision = true;
 					}
 				}
 			}
@@ -167,7 +171,8 @@ void Player::ContainWithinLevel( const Level& level ) {
 					float depth			= playerBottom - wallTop;
 					if ( depth >= 0.0f && glm::abs( toPlayer.x ) <= 0.5f * (playerSize + wallSize.x) )
 					{
-						m_Position.y -= depth;
+						m_Position.y -= depth + 0.001f;
+						collision = true;
 					}
 				}
 				else if ( toPlayer.y > 0.0f )
@@ -177,11 +182,16 @@ void Player::ContainWithinLevel( const Level& level ) {
 					float depth			= wallBottom - playerTop;
 					if ( depth >= 0.0f && glm::abs( toPlayer.x ) <= 0.5f * (playerSize + wallSize.x) )
 					{
-						m_Position.y += depth;
+						m_Position.y += depth + 0.001f;
+						collision = true;
 					}
 				}
 			}
 		}
+	}
+
+	if ( collision && m_Pouncing ) {
+		m_PounceTimer = 0.0f;
 	}
 }
 
