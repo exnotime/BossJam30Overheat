@@ -8,6 +8,8 @@ public:
 	static Camera& GetInstance();
 	void SetPosition(glm::vec2 pos);
 	void Apply(sf::RenderWindow* window);
+	void ApplyGUI(sf::RenderWindow* window);
+
 
 	glm::vec2& GetPosition() { return m_Position; };
 
@@ -16,5 +18,6 @@ private:
 	Camera();
 	~Camera();
 	sf::View	m_View;
+	sf::View	m_GUIView;
 	glm::vec2	m_Position;
 };

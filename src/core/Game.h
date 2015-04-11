@@ -19,6 +19,8 @@ public:
 	void Shutdown();
 
 	void CheckCollisions();
+	void GiveScore(unsigned int points);
+
 private:
 	//these are all just example variables
 	sf::Texture				m_Texture;
@@ -28,4 +30,10 @@ private:
 	Player					m_Player;
 	std::vector<GameObject*> m_GameObjects;
 	Level					m_Level;
+
+	unsigned int			m_HighScore;
+	unsigned int			m_KillCount;
+	unsigned int			m_KillStreak;
+	sf::Text				m_TextHighScore;
+	sf::Text				m_TextKillCount;
 };
