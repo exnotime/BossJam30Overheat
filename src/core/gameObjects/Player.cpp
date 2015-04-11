@@ -13,6 +13,7 @@ Player::Player() {
 	m_MaulTimer = 0.0f;
 	m_PounceTimer = 0.0f;
 	m_HP = 100.0f;
+	m_Mauling = false;
 }
 
 Player::~Player() {
@@ -58,6 +59,9 @@ void Player::CheckAttack(float dt){
 		Pounce();
 	}
 
+	if (m_MaulTimer != 3.0f){
+		m_Mauling = false;
+	}
 	if (m_MaulTimer > 0.0f){
 		m_MaulTimer -= dt;
 	}
@@ -71,11 +75,42 @@ void Player::CheckAttack(float dt){
 }
 
 void Player::Maul(){
-	m_Sprite.setTextureRect(sf::IntRect(120, 0, 120, 450));
-	m_MaulTimer = 3.0f;
+	if (m_MaulTimer <= 0.0f){
+		m_Sprite.setTextureRect(sf::IntRect(120, 0, 120, 450));
+		m_MaulTimer = 3.0f;
+		m_Mauling = true;
+	}
 }
 
 void Player::Pounce(){
 	m_Sprite.setTextureRect(sf::IntRect(240, 0, 120, 450));
 	m_PounceTimer = 2.0f;
+}
+
+sf::FloatRect Player::GetBoundingBoxMaul(){
+	sf::FloatRect rect, temp;
+	temp = m_Sprite.getGlobalBounds();
+	rect = sf::FloatRect(temp.left, temp.top + 1, 120, 50);
+	return temp;
+}
+
+sf::FloatRect Player::GetBoundingBoxPounce(){
+	sf::FloatRect rect, temp;
+	temp = m_Sprite.getGlobalBounds();
+	rect = sf::FloatRect(temp.left, temp.top + 100, 120, 50);
+	return temp;
+}
+
+float Player::GetDamage(){
+	if (m_Mauling){
+		m_Damage = 50.0f;
+	}
+	if (m_Pouncing){
+		m_Damage = 100.0f;
+	}
+	return m_Damage;
+}
+
+bool Player::GetMauling(){
+	return m_Mauling;
 }

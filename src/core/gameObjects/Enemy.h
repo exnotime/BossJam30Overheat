@@ -11,6 +11,7 @@ public:
 	void Update(float dt) override;
 	void SetEaten(bool eaten);
 	void SetAlert(bool alert);
+	void TakeDamage(float damage);
 private:
 	float m_MovementSpeed = 1.0f;
 	bool m_Eaten;

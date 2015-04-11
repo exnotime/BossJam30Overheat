@@ -59,5 +59,12 @@ void Enemy::SetAlert(bool alert){
 	}else{
 		m_Walking = true;
 		m_MovementSpeed = 1.0f;
+	//m_Eaten = eaten;
+}
+
+void Enemy::TakeDamage(float damage){
+	m_HP -= damage;
+	if (m_HP <= 0.0f){
+		m_Eaten = true;
 	}
 }

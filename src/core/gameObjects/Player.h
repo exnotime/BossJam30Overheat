@@ -7,6 +7,12 @@ public:
 	Player();
 	~Player();
 	virtual void Update(float dt);
+
+	sf::FloatRect GetBoundingBoxMaul();
+	sf::FloatRect GetBoundingBoxPounce();
+	float GetDamage();
+	bool GetMauling();
+	bool GetPouncing();
 private:
 
 	const float MOVEMENT_SPEED = 4.0f;
@@ -21,4 +27,7 @@ private:
 	float m_MaulTimer;
 	float m_PounceTimer;
 	float m_HP;
+
+	bool m_Mauling;
+	bool m_Pouncing;
 };

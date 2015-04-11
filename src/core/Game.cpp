@@ -56,6 +56,7 @@ void Game::Update(sf::Clock& gameTime){
 		}
 	}
 
+	CheckCollisions();
 }
 //render game state
 void Game::Draw(sf::RenderWindow* window){
@@ -63,9 +64,7 @@ void Game::Draw(sf::RenderWindow* window){
 	m_Level.Draw( window );
 
 	m_Player.Draw(window);
-	for (auto& enemy : m_Enemies) {
-		enemy.Draw(window);
-	}
+
 	for (auto& gameobject : m_GameObjects) {
 		gameobject->Draw(window);
 	}
@@ -77,4 +76,24 @@ void Game::Shutdown(){
 		delete m_GameObjects[i];
 	}
 	m_GameObjects.clear();
+}
+
+void Game::CheckCollisions(){
+	sf::FloatRect playerRect;
+	sf::FloatRect enemyRect;
+
+	for (auto& gameobject : m_GameObjects) {
+		Enemy* enemy = dynamic_cast<Enemy*>(gameobject);
+		if (enemy){
+			if (m_Player.GetMauling()){
+				if (m_Player.GetBoundingBoxMaul().intersects(gameobject->GetBoundingBox()))
+				{
+					//enemy->SetEaten(true);
+					enemy->TakeDamage(m_Player.GetMaulDamage());
+				}
+			}
+		}
+	}
+	playerRect = m_Player.GetBoundingBoxMaul();
+
 }
