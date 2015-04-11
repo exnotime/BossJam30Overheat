@@ -20,7 +20,6 @@ void Game::Initialize(const sf::RenderWindow& window){
 	go->SetTexture(&m_Texture);
 	go->SetSize( glm::vec2( 2.0f, 6.0f ) );
 
-	m_Player.SetTexture(&m_Texture);
 	m_Player.SetPosition( 0.0f, 0.0f );
 	m_Player.SetSize( glm::vec2( 1.0f, 3.0f ) );
 
@@ -60,6 +59,8 @@ void Game::Update(sf::Clock& gameTime){
 //render game state
 void Game::Draw(sf::RenderWindow* window){
 	g_Camera.Apply(window);
+	m_Level.Draw( window );
+
 	m_Player.Draw(window);
 	for (auto& enemy : m_Enemies) {
 		enemy.Draw(window);

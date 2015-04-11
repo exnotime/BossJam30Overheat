@@ -19,6 +19,7 @@ private:
 	bool m_Walking = true;
 	static const int m_RunningAnimation[];
 	static const int m_WalkAnimation[];
+	float m_HP;
 };
 
 

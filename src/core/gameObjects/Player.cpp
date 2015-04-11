@@ -4,6 +4,15 @@
 
 Player::Player() {
 	m_Origin = glm::vec2(90, 160);
+	m_Position = glm::vec2(400);
+	m_Damage = 0.0f;
+	m_Texture.loadFromFile("asset/TigerCharacter.png");
+	m_Texture.setSmooth(true); //turn on aa
+	m_Sprite.setTexture(m_Texture);
+	m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 450));
+	m_MaulTimer = 0.0f;
+	m_PounceTimer = 0.0f;
+	m_HP = 100.0f;
 }
 
 Player::~Player() {
@@ -34,4 +43,39 @@ void Player::Update(float dt) {
 
 	g_Camera.SetPosition(m_Position);
 	GameObject::Update(dt); //will update the sprite
+
+	CheckAttack(dt);
+}
+
+
+void Player::CheckAttack(float dt){
+	sf::Mouse mouse;
+
+	if (mouse.isButtonPressed(mouse.Left)){
+		Maul();
+	}
+	else if(mouse.isButtonPressed(mouse.Right)){
+		Pounce();
+	}
+
+	if (m_MaulTimer > 0.0f){
+		m_MaulTimer -= dt;
+	}
+	if (m_PounceTimer > 0.0f){
+		m_PounceTimer -= dt;
+	}
+
+	if (m_MaulTimer <= 0.0f && m_PounceTimer <= 0.0f){
+		m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 450));
+	}
+}
+
+void Player::Maul(){
+	m_Sprite.setTextureRect(sf::IntRect(120, 0, 120, 450));
+	m_MaulTimer = 3.0f;
+}
+
+void Player::Pounce(){
+	m_Sprite.setTextureRect(sf::IntRect(240, 0, 120, 450));
+	m_PounceTimer = 2.0f;
 }
