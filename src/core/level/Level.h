@@ -25,6 +25,8 @@ public:
 	void		Draw( sf::RenderWindow* window ) const;
 
 private:
+	bool										ColorIsTable( const sf::Color& color ) const;
+
 	sf::Texture									m_FloorTextures[ LEVEL_FLOOR_TYPE_SIZE ];
 	sf::Texture									m_ObjectTextures[ LEVEL_OBJECT_TYPE_SIZE ];
 	std::vector<std::vector<LEVEL_FLOOR_TYPE>>	m_Floor;
