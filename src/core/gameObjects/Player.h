@@ -23,7 +23,7 @@ private:
 	const float MAULTIME = 0.1f;
 	const float MAUL_DELAY = -0.2f;
 	const float POUNCETIME = 0.2f;
-	const float POUNCE_DELAY = -3.0f;
+	const float POUNCE_DELAY = -1.0f;
 	const float COLLISION_RADIUS = 0.4f;
 	
 
