@@ -53,12 +53,3 @@ void Boss::TakeDamage(float damage){
 		m_Dead = true;
 	}
 }
-
-void Boss::UpdatePOI(Level& level){
-	if (glm::distance(m_Goal, m_Position) < 0.01f){
-		m_Position = m_Goal;
-		glm::vec2 newGoal = level.GetClosestPOI(m_Position, m_Goal, m_OldGoal);
-		m_OldGoal = m_Goal;
-		m_Goal = newGoal;
-	}
-}

@@ -12,7 +12,6 @@ public:
 	void Update(float dt) override;
 	void TakeDamage(float damage);
 	void SetGoal(glm::vec2 goal);
-	void UpdatePOI(Level& level);
 private:
 	float m_MovementSpeed = 1.0f;
 	float m_AnimationTimer = 0.0f;
