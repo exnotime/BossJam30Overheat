@@ -29,7 +29,7 @@ Player::~Player() {
 
 
 void Player::Update(float dt) {
-	CheckAttack(dt);
+	
 	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
 	aim = aim * 2.0f - 1.0f;
 	m_Rotation = (atan2f(aim.y, aim.x) + 3.14f * 0.5f) * 180.0f / 3.14f; //adjust for sprite
@@ -62,15 +62,15 @@ void Player::Update(float dt) {
 		m_Walking = true;
 	}
 
-	if (m_Walking){
+	if (m_Walking && !m_Mauling && !m_Pouncing){
 		m_AnimationTimer += dt * 10.0f;
 		int frame = (int)m_AnimationTimer;
 		m_Sprite.setTextureRect(sf::IntRect(120 * (m_WalkAnimation[frame % 6]), 0, 120, 450));
 	}
 	else{
-		m_Sprite.setTextureRect(sf::IntRect(120 * (0), 0, 120, 450));
+		//m_Sprite.setTextureRect(sf::IntRect(120 * (0), 0, 120, 450));
 	}
-
+	CheckAttack(dt);
 	GameObject::Update(dt); //will update the sprite
 }
 
@@ -103,13 +103,13 @@ void Player::CheckAttack(float dt){
 }
 
 void Player::Maul(){
-	m_Sprite.setTextureRect(sf::IntRect(120, 0, 120, 450));
+	m_Sprite.setTextureRect(sf::IntRect(0, 450, 120, 450));
 	m_MaulTimer = MAULTIME;
 	m_Mauling = true;
 }
 
 void Player::Pounce(){
-	m_Sprite.setTextureRect(sf::IntRect(240, 0, 120, 450));
+	m_Sprite.setTextureRect(sf::IntRect(0, 900, 120, 450));
 	m_MovementSpeed = 20.0f;
 	m_PounceTimer = POUNCETIME;
 	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
