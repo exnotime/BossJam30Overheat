@@ -24,7 +24,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 	enemyTemp->SetTexture(&m_TextureHuman);
 	enemyTemp->SetPosition( 5.0f, 0.5f );
 	enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
-	enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
+	enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
 	m_GameObjects.push_back(enemyTemp);
 
 	m_HighScore = 0;
@@ -89,7 +89,7 @@ void Game::Update(sf::Clock& gameTime){
 		glm::vec2 pos = m_Level.GetRandomFreeTile();
 		enemyTemp->SetPosition(pos.x,pos.y );
 		enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
-		enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
+		enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
 		m_GameObjects.push_back(enemyTemp);
 		m_EnemySpawnTimer = 5.0f;
 	}

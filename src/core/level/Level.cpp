@@ -14,6 +14,11 @@
 #define LEVEL_OBJECT_COLOR_BED_C	sf::Color( 2, 255, 3 )
 #define LEVEL_OBJECT_COLOR_WALL		sf::Color( 111, 111, 111 )
 
+#define LEVEL_FLOW_COLOR_UP			sf::Color( 200, 100, 100 )
+#define LEVEL_FLOW_COLOR_DOWN		sf::Color( 100, 200, 100 )
+#define LEVEL_FLOW_COLOR_RIGHT		sf::Color( 100, 100, 200 )
+#define LEVEL_FLOW_COLOR_LEFT		sf::Color( 200, 200, 100 )
+
 void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObject*>& gameObjects ) {
 	m_FloorTextures[ LEVEL_FLOOR_TYPE_AISLE ].loadFromFile( "asset/sprite/floor/aisle.png" );
 	m_FloorTextures[ LEVEL_FLOOR_TYPE_WOOD ].loadFromFile( "asset/sprite/floor/wood.png" );
@@ -31,12 +36,13 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 		m_ObjectTextures[i].setSmooth( true );
 	}
 
-	sf::Image floorMap, objectMap, colourMap, POIMap;
+	sf::Image floorMap, objectMap, colourMap, flowMap;
 	floorMap.loadFromFile( levelFolderPath + "/floor.png" );
 	objectMap.loadFromFile( levelFolderPath + "/objects.png" );
 	colourMap.loadFromFile( levelFolderPath + "/colours.png" );
-	POIMap.loadFromFile(levelFolderPath + "/PathPoints.png");
+	flowMap.loadFromFile(levelFolderPath + "/flow.png");
 	m_LevelSize = glm::vec2(floorMap.getSize().x, floorMap.getSize().y);
+
 	m_Floor.resize( floorMap.getSize().y );
 	for ( unsigned int y = 0; y < floorMap.getSize().y; ++y ) {
 		m_Floor[y].resize( floorMap.getSize().x );
@@ -159,11 +165,24 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 		}
 	}
 
-	for (unsigned int y = 0; y < POIMap.getSize().y; ++y) {
-		for (unsigned int x = 0; x < POIMap.getSize().x; ++x) {
-			sf::Color texelColour = POIMap.getPixel(x, y);
-			if (texelColour == sf::Color::Red){
-				m_PointsOfInterest.push_back(glm::vec2(x, y) + glm::vec2(0.5f));
+	m_FlowMap.resize( flowMap.getSize().y );
+	for ( unsigned int y = 0; y < flowMap.getSize().y; ++y ) {
+		m_FlowMap[y].resize( flowMap.getSize().x );
+
+		for ( unsigned int x = 0; x < flowMap.getSize().x; ++x ) {
+			sf::Color	texelColour	= flowMap.getPixel( x, y );
+			glm::vec2&	flowTile	= m_FlowMap[y][x];
+
+			if ( texelColour == LEVEL_FLOW_COLOR_UP ) {
+				flowTile = glm::vec2( x + 0.5f, y - 0.5f );
+			} else if ( texelColour == LEVEL_FLOW_COLOR_DOWN ) {
+				flowTile = glm::vec2( x + 0.5f, y + 1.5f );
+			} else if ( texelColour == LEVEL_FLOW_COLOR_LEFT ) {
+				flowTile = glm::vec2( x - 0.5f, y + 0.5f );
+			} else if ( texelColour == LEVEL_FLOW_COLOR_RIGHT ) {
+				flowTile = glm::vec2( x + 1.5f, y + 0.5f );
+			} else {
+				flowTile = 0.5f * m_LevelSize;
 			}
 		}
 	}
@@ -210,17 +229,15 @@ bool Level::ColorIsTable(const sf::Color& color) const {
 	return (color == LEVEL_OBJECT_COLOR_TABLE || color == LEVEL_OBJECT_COLOR_TABLE_C);
 }
 
-glm::vec2 Level::GetClosestPOI(glm::vec2 pos, glm::vec2 currentGoal, glm::vec2 oldGoal){
-	glm::vec2 closest = glm::vec2(0.0f);
-	float closestDist = 10000.0f;
-	for (auto& it : m_PointsOfInterest){
-		float dist = glm::distance(pos, it);
-		if (dist < closestDist && (oldGoal != it && currentGoal != it)){
-			closest = it;
-			closestDist = dist;
-		}
+glm::vec2 Level::GetNextGoal(glm::vec2 pos) {
+	int x = (int)pos.x;
+	int y = (int)pos.y;
+
+	if ( IsTileBlocked( x, y ) ) {
+		return 0.5f * m_LevelSize;
+	} else {
+		return m_FlowMap[y][x];
 	}
-	return closest;
 }
 
 bool Level::IsTileBlocked( int x, int y ) const {
