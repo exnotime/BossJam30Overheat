@@ -13,11 +13,13 @@ public:
 	bool GetMauling();
 	bool GetPouncing();
 private:
-
-	float m_MovementSpeed = 4.0f;
-	const float MAULTIME = 1.0f;
+	const float DEFAULT_SPEED = 4.0f;
+	float m_MovementSpeed = DEFAULT_SPEED;
+	const float MAULTIME = 0.1f;
+	const float MAUL_DELAY = -0.2f;
 	const float POUNCETIME = 0.2f;
 	const float POUNCE_DELAY = -3.0f;
+	
 
 	void CheckAttack(float dt);
 	void Maul();

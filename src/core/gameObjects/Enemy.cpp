@@ -55,7 +55,7 @@ void Enemy::SetEaten(bool eaten){
 void Enemy::SetAlert(bool alert){
 	if (alert){
 		m_Walking = false;
-		m_MovementSpeed = 2.5f;
+		m_MovementSpeed = 3.0f;
 	}
 	else{
 		m_Walking = true;

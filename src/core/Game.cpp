@@ -28,7 +28,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 	Enemy *enemyTemp = new Enemy();
 	enemyTemp->SetTexture(&m_TextureHuman);
 	enemyTemp->SetPosition( 5.0f, 0.5f );
-	enemyTemp->SetSize( glm::vec2( 1.2f, 1.0f ) );
+	enemyTemp->SetSize( glm::vec2( 0.6f, 0.5f ) );
 
 	m_GameObjects.push_back(go);
 	m_GameObjects.push_back(enemyTemp);
