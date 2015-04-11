@@ -22,6 +22,12 @@ void GameObject::Update(float dt) {
 
 void GameObject::Draw(sf::RenderWindow* window) {
 	window->draw(m_Sprite);
+
+	//sf::CircleShape dot;
+	//dot.setPosition(m_Position.x, m_Position.y);
+	//dot.setRadius(0.1f);
+	//dot.setOrigin(0.05f, 0.05f);
+	//window->draw(dot);
 }
 
 void GameObject::SetTexture(sf::Texture* texture) {

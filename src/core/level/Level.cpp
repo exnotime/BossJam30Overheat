@@ -26,10 +26,11 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 		m_ObjectTextures[i].setSmooth( true );
 	}
 
-	sf::Image floorMap, objectMap, colourMap;
+	sf::Image floorMap, objectMap, colourMap, POIMap;
 	floorMap.loadFromFile( levelFolderPath + "/floor.png" );
 	objectMap.loadFromFile( levelFolderPath + "/objects.png" );
 	colourMap.loadFromFile( levelFolderPath + "/colours.png" );
+	POIMap.loadFromFile(levelFolderPath + "/PathPoints.png");
 
 	m_Floor.resize( floorMap.getSize().y );
 	for ( unsigned int y = 0; y < floorMap.getSize().y; ++y ) {
@@ -95,6 +96,15 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 			}
 		}
 	}
+
+	for (unsigned int y = 0; y < POIMap.getSize().y; ++y) {
+		for (unsigned int x = 0; x < POIMap.getSize().x; ++x) {
+			sf::Color texelColour = POIMap.getPixel(x, y);
+			if (texelColour == sf::Color::Red){
+				m_PointsOfInterest.push_back(glm::vec2(x, y) + glm::vec2(0.5f));
+			}
+		}
+	}
 }
 
 void Level::Draw( sf::RenderWindow* window ) const {
@@ -110,6 +120,19 @@ void Level::Draw( sf::RenderWindow* window ) const {
 	}
 }
 
-bool Level::ColorIsTable( const sf::Color& color ) const {
-	return ( color == LEVEL_OBJECT_COLOR_TABLE || color == LEVEL_OBJECT_COLOR_TABLE_C );
+bool Level::ColorIsTable(const sf::Color& color) const {
+	return (color == LEVEL_OBJECT_COLOR_TABLE || color == LEVEL_OBJECT_COLOR_TABLE_C);
+}
+
+glm::vec2 Level::GetClosestPOI(glm::vec2 pos, glm::vec2 currentGoal, glm::vec2 oldGoal){
+	glm::vec2 closest = glm::vec2(0.0f);
+	float closestDist = 10000.0f;
+	for (auto& it : m_PointsOfInterest){
+		float dist = glm::distance(pos, it);
+		if (dist < closestDist && (oldGoal != it && currentGoal != it)){
+			closest = it;
+			closestDist = dist;
+		}
+	}
+	return closest;
 }

@@ -23,7 +23,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 	enemyTemp->SetTexture(&m_TextureHuman);
 	enemyTemp->SetPosition( 5.0f, 0.5f );
 	enemyTemp->SetSize( glm::vec2( 0.6f, 0.5f ) );
-
+	enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
 	m_GameObjects.push_back(enemyTemp);
 }
 //update game state
@@ -45,6 +45,7 @@ void Game::Update(sf::Clock& gameTime){
 			} else {
 				enemy->SetAlert(false);
 			}
+			enemy->UpdatePOI(m_Level);
 		}
 	}
 
@@ -54,8 +55,6 @@ void Game::Update(sf::Clock& gameTime){
 void Game::Draw(sf::RenderWindow* window){
 	g_Camera.Apply(window);
 	m_Level.Draw( window );
-
-	m_Player.Draw(window);
 
 	for (auto& gameobject : m_GameObjects) {
 		gameobject->Draw(window);
