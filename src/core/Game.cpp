@@ -17,7 +17,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_DeadEnemyTexture.setSmooth(true);
 	m_Font.loadFromFile("asset/arial.ttf");
 
-	m_Player.SetPosition( 0.0f, 0.0f );
+	m_Player.SetPosition( 27.0f, 43.0f );
 	m_Player.SetSize( glm::vec2( 1.0f, 3.0f ) );
 
 	Enemy *enemyTemp = new Enemy();
