@@ -18,6 +18,7 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_ARMCHAIR ].loadFromFile( "asset/sprite/furniture/armchair.png" );
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_TABLE ].loadFromFile( "asset/sprite/furniture/table.png" );
+	m_ObjectTextures[ LEVEL_OBJECT_TYPE_LAMP ].loadFromFile( "asset/sprite/furniture/lamp.png" );
 
 	for ( int i = 0; i < LEVEL_FLOOR_TYPE_SIZE; ++i ) {
 		m_FloorTextures[i].setSmooth( true );
@@ -91,6 +92,14 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 					objectMap.setPixel( x, y + 1, LEVEL_OBJECT_COLOR_TABLE_C );
 				}
 				gameObjects.push_back( table );
+			} else if ( texelColour == LEVEL_OBJECT_COLOR_LAMP ) {
+				GameObject* lamp = new GameObject();
+				lamp->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_LAMP ] );
+				lamp->SetPosition( x + 0.5f, y + 0.5f );
+				lamp->SetSize( glm::vec2( 1.0f ) );
+				lamp->SetRotation( 90.0f * (rand() % 4) );
+
+				gameObjects.push_back( lamp );
 			} else {
 				// Do nothing.
 			}
