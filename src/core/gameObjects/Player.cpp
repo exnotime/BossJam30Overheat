@@ -2,6 +2,9 @@
 #include "../input/GlobalMouse.h"
 #include "Camera.h"
 
+const int Player::m_RunningAnimation[6] = { 0, 1, 2, 3, 4, 5 };
+const int Player::m_WalkAnimation[6] = { 0, 1, 2, 3, 4, 5 };
+
 Player::Player() {
 	m_Origin = glm::vec2(60, 160);
 	m_Position = glm::vec2(400);
@@ -15,6 +18,7 @@ Player::Player() {
 	m_HP = 100.0f;
 	m_Mauling = false;
 	m_Pouncing = false;
+	m_Walking = false;
 }
 
 Player::~Player() {
@@ -32,15 +36,28 @@ void Player::Update(float dt) {
 
 	if (kb.isKeyPressed(sf::Keyboard::W)){
 		m_Position.y -= MOVEMENT_SPEED * dt;
+		m_Walking = true;
 	}
 	if (kb.isKeyPressed(sf::Keyboard::S)){
 		m_Position.y += MOVEMENT_SPEED * dt;
+		m_Walking = true;
 	}
 	if (kb.isKeyPressed(sf::Keyboard::D)){
 		m_Position.x += MOVEMENT_SPEED * dt;
+		m_Walking = true;
 	}
 	if (kb.isKeyPressed(sf::Keyboard::A)){
 		m_Position.x -= MOVEMENT_SPEED * dt;
+		m_Walking = true;
+	}
+
+	if (m_Walking){
+		m_AnimationTimer += dt * 10.0f;
+		int frame = (int)m_AnimationTimer;
+		m_Sprite.setTextureRect(sf::IntRect(120 * (m_WalkAnimation[frame % 6]), 0, 120, 450));
+	}
+	else{
+		m_Sprite.setTextureRect(sf::IntRect(120 * (0), 0, 120, 450));
 	}
 
 	g_Camera.SetPosition(m_Position);
@@ -76,7 +93,7 @@ void Player::CheckAttack(float dt){
 	}
 
 	if (m_MaulTimer <= 0.0f && m_PounceTimer <= 0.0f){
-		m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 450));
+		//m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 450));
 	}
 }
 

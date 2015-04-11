@@ -32,4 +32,8 @@ private:
 
 	bool m_Mauling;
 	bool m_Pouncing;
+	bool m_Walking;
+	float m_AnimationTimer = 0.0f;
+	static const int m_RunningAnimation[];
+	static const int m_WalkAnimation[];
 };
