@@ -37,8 +37,10 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_TextKillCount = sf::Text("Killcount: ", m_Font, 30);
 	m_TextKillCount.setPosition(-630, -310);
 	m_TextKillCount.setString("Killcount: " + std::to_string(m_KillCount));
-	m_TextKillStreak = sf::Text("", m_Font, 50);
+	m_TextKillStreak = sf::Text("", m_Font, 30);
 	m_TextKillStreak.setPosition(-100, 0);
+	m_TextTimerKillStreak = sf::Text("Killstreak Countdown: ", m_Font, 30);
+	m_TextTimerKillStreak.setPosition(-630, -270);
 
 	m_EnemySpawnTimer = 5.0f;
 
@@ -95,10 +97,12 @@ void Game::Update(sf::Clock& gameTime){
 	}
 	CheckCollisions();
 	m_TimerKillStreak -= dt;
+	if (m_TimerKillStreak > 0.0f){
+		m_TextTimerKillStreak.setString("Killstreak Countdown: " + std::to_string((int)std::ceilf(m_TimerKillStreak)));
+	} else {
+		m_TextTimerKillStreak.setString("Killstreak Countdown: 0");
+	}
 	if (m_TimerKillStreak < 0.0f){
-		if (m_TimerKillStreak < -3.0f){
-			m_TextKillStreak.setString("");
-		}
 		if (m_KillStreak >= 3){
 			m_TextKillStreak.setString("WOW you love swedes!");
 			m_HighScore += 1000;
@@ -114,6 +118,9 @@ void Game::Update(sf::Clock& gameTime){
 		if (m_KillStreak >= 10){
 			m_TextKillStreak.setString("Swedes are now hailing the TigerKING");
 			m_HighScore += 10000;
+		}
+		if (m_TimerKillStreak < -3.0f){
+			m_TextKillStreak.setString("");
 		}
 		m_KillStreak = 0;
 	}
@@ -133,6 +140,7 @@ void Game::Draw(sf::RenderWindow* window){
 	window->draw(m_TextHighScore);
 	window->draw(m_TextKillCount);
 	window->draw(m_TextKillStreak);
+	window->draw(m_TextTimerKillStreak);
 }
 
 void Game::Shutdown(){

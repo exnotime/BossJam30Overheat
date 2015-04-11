@@ -39,4 +39,5 @@ private:
 	float 					m_EnemySpawnTimer;
 	sf::Text				m_TextKillStreak;
 	float					m_TimerKillStreak;
+	sf::Text				m_TextTimerKillStreak;
 };
