@@ -37,6 +37,10 @@ void GameObject::SetRotation(float rot) {
 	m_Rotation = rot;
 }
 
+void GameObject::SetOrigin( const glm::vec2& newOrigin ) {
+	m_Origin = newOrigin;
+}
+
 void GameObject::SetSize( const glm::vec2& newSize ) {
 	m_Sprite.setScale( newSize.x / m_Sprite.getTextureRect().width, newSize.y / m_Sprite.getTextureRect().height );
 	m_Size = newSize;

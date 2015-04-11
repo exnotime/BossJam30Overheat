@@ -7,15 +7,16 @@
 
 #define LEVEL_OBJECT_COLOR_NONE		sf::Color::White
 #define LEVEL_OBJECT_COLOR_ARMCHAIR	sf::Color::Blue
-#define LEVEL_OBJECT_COLOR_SOFA		sf::Color::Red
+#define LEVEL_OBJECT_COLOR_TABLE	sf::Color::Red
 #define LEVEL_OBJECT_COLOR_LAMP		sf::Color::Black
-#define LEVEL_OBJECT_COLOR_TABLE	sf::Color::Green
+#define LEVEL_OBJECT_COLOR_SOFA		sf::Color::Green
 
 void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObject*>& gameObjects ) {
 	m_FloorTextures[ LEVEL_FLOOR_TYPE_AISLE ].loadFromFile( "asset/sprite/floor/aisle.png" );
 	m_FloorTextures[ LEVEL_FLOOR_TYPE_WOOD ].loadFromFile( "asset/sprite/floor/wood.png" );
 
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_ARMCHAIR ].loadFromFile( "asset/sprite/furniture/armchair.png" );
+	m_ObjectTextures[ LEVEL_OBJECT_TYPE_TABLE ].loadFromFile( "asset/sprite/furniture/table.png" );
 
 	for ( int i = 0; i < LEVEL_FLOOR_TYPE_SIZE; ++i ) {
 		m_FloorTextures[i].setSmooth( true );
@@ -59,6 +60,21 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 				armchair->SetSize( glm::vec2( 1.0f ) );
 				armchair->SetRotation( 90.0f * (rand() % 4) );
 				gameObjects.push_back( armchair );
+			} else if ( texelColour == LEVEL_OBJECT_COLOR_TABLE ) {
+				GameObject* table = new GameObject();
+				table->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_TABLE ] );
+				table->SetPosition( x + 0.5f, y + 0.5f );
+				table->SetSize( glm::vec2( 2.0f, 1.0f ) );
+				table->SetOrigin( glm::vec2( 64 ) );
+
+				if ( x != objectMap.getSize().x && objectMap.getPixel( x + 1, y ) == LEVEL_OBJECT_COLOR_TABLE ) {
+					table->SetRotation( 0.0f );
+					objectMap.setPixel( x + 1, y, LEVEL_OBJECT_COLOR_NONE );
+				} else if ( y != objectMap.getSize().y && objectMap.getPixel( x, y + 1 ) == LEVEL_OBJECT_COLOR_TABLE ) {
+					table->SetRotation( 90.0f );
+					objectMap.setPixel( x, y + 1, LEVEL_OBJECT_COLOR_NONE );
+				}
+				gameObjects.push_back( table );
 			} else {
 				// Do nothing.
 			}
