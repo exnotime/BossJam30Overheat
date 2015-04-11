@@ -88,12 +88,17 @@ void Game::CheckCollisions(){
 			if (m_Player.GetMauling()){
 				if (m_Player.GetBoundingBoxMaul().intersects(gameobject->GetBoundingBox()))
 				{
-					//enemy->SetEaten(true);
-					enemy->TakeDamage(m_Player.GetMaulDamage());
+					enemy->TakeDamage(m_Player.GetDamage());
+				}
+			}
+			if (m_Player.GetPouncing()){
+				if (m_Player.GetBoundingBoxPounce().intersects(gameobject->GetBoundingBox()))
+				{
+					enemy->TakeDamage(m_Player.GetDamage());
 				}
 			}
 		}
 	}
-	playerRect = m_Player.GetBoundingBoxMaul();
 
+	playerRect = m_Player.GetBoundingBoxMaul();
 }

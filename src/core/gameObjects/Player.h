@@ -16,6 +16,8 @@ public:
 private:
 
 	const float MOVEMENT_SPEED = 4.0f;
+	const float MAULTIME = 1.0f;
+	const float POUNCETIME = 2.0f;
 
 	void CheckAttack(float dt);
 	void Maul();

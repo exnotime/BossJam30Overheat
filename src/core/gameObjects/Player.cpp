@@ -3,7 +3,7 @@
 #include "Camera.h"
 
 Player::Player() {
-	m_Origin = glm::vec2(90, 160);
+	m_Origin = glm::vec2(60, 160);
 	m_Position = glm::vec2(400);
 	m_Damage = 0.0f;
 	m_Texture.loadFromFile("asset/TigerCharacter.png");
@@ -14,6 +14,7 @@ Player::Player() {
 	m_PounceTimer = 0.0f;
 	m_HP = 100.0f;
 	m_Mauling = false;
+	m_Pouncing = false;
 }
 
 Player::~Player() {
@@ -59,11 +60,16 @@ void Player::CheckAttack(float dt){
 		Pounce();
 	}
 
-	if (m_MaulTimer != 3.0f){
+	if (m_MaulTimer != MAULTIME){
 		m_Mauling = false;
 	}
 	if (m_MaulTimer > 0.0f){
 		m_MaulTimer -= dt;
+	}
+
+	if (m_PounceTimer != POUNCETIME)
+	{
+		m_Pouncing = false;
 	}
 	if (m_PounceTimer > 0.0f){
 		m_PounceTimer -= dt;
@@ -77,14 +83,18 @@ void Player::CheckAttack(float dt){
 void Player::Maul(){
 	if (m_MaulTimer <= 0.0f){
 		m_Sprite.setTextureRect(sf::IntRect(120, 0, 120, 450));
-		m_MaulTimer = 3.0f;
+		m_MaulTimer = MAULTIME;
 		m_Mauling = true;
 	}
 }
 
 void Player::Pounce(){
-	m_Sprite.setTextureRect(sf::IntRect(240, 0, 120, 450));
-	m_PounceTimer = 2.0f;
+	if (m_PounceTimer <= 0.0f)
+	{
+		m_Sprite.setTextureRect(sf::IntRect(240, 0, 120, 450));
+		m_PounceTimer = POUNCETIME;
+		m_Pouncing = true;
+	}
 }
 
 sf::FloatRect Player::GetBoundingBoxMaul(){
@@ -113,4 +123,8 @@ float Player::GetDamage(){
 
 bool Player::GetMauling(){
 	return m_Mauling;
+}
+
+bool Player::GetPouncing(){
+	return m_Pouncing;
 }
