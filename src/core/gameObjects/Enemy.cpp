@@ -2,6 +2,7 @@
 
 const int Enemy::m_RunningAnimation[8] = { 0, 1, 2, 1, 0, 3, 4, 3 };
 const int Enemy::m_WalkAnimation[6] = { 0, 1, 1, 0, 3, 3 };
+
 Enemy::Enemy(){
 	m_Origin = glm::vec2(60, 50);
 	m_Rotation = 0.0f;

@@ -52,7 +52,6 @@ void Game::Update(sf::Clock& gameTime){
 			} else {
 				enemy->SetAlert(false);
 			}
-				
 		}
 	}
 
@@ -70,6 +69,7 @@ void Game::Draw(sf::RenderWindow* window){
 		gameobject->Draw(window);
 	}
 	m_Player.Draw(window);
+
 }
 
 void Game::Shutdown(){

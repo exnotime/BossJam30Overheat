@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include <SFML/System.hpp>
-
+#define POUNCE_DELAY -3.0f
 class Player : public GameObject {
 public:
 	Player();
@@ -9,7 +9,7 @@ public:
 	virtual void Update(float dt);
 private:
 
-	const float MOVEMENT_SPEED = 4.0f;
+	float m_MovementSpeed = 4.0f;
 
 	void CheckAttack(float dt);
 	void Maul();
@@ -17,6 +17,8 @@ private:
 
 	float m_Damage;
 	sf::Texture m_Texture;
+	glm::vec2 m_Direction;
+	glm::vec2 m_PounceDirection;
 
 	float m_MaulTimer;
 	float m_PounceTimer;
