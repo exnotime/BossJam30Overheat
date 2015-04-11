@@ -13,7 +13,8 @@ void Game::Initialize(const sf::RenderWindow& window){
 
 	m_TextureHuman.loadFromFile("asset/sprite/human/human.png");
 	m_TextureHuman.setSmooth(true); //turn on aa
-
+	m_DeadEnemyTexture.loadFromFile("asset/sprite/human/dead.png");
+	m_DeadEnemyTexture.setSmooth(true);
 	m_Font.loadFromFile("asset/arial.ttf");
 
 	m_Player.SetPosition( 0.0f, 0.0f );
@@ -22,7 +23,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 	Enemy *enemyTemp = new Enemy();
 	enemyTemp->SetTexture(&m_TextureHuman);
 	enemyTemp->SetPosition( 5.0f, 0.5f );
-	enemyTemp->SetSize( glm::vec2( 0.6f, 0.5f ) );
+	enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
 	enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
 	m_GameObjects.push_back(enemyTemp);
 }
@@ -31,13 +32,14 @@ void Game::Update(sf::Clock& gameTime){
 	float dt = gameTime.restart().asSeconds();
 	m_Player.Update(dt);
 
+	std::vector<GameObject*> objectsToBeAdded;
 	for (auto& gameobject : m_GameObjects) {
 		gameobject->Update(dt);
 		Enemy* enemy = dynamic_cast<Enemy*>(gameobject);
 		if (enemy){
 			if (m_Player.GetBoundingBox().intersects(gameobject->GetBoundingBox()))
 			{
-				enemy->SetEaten(true);
+				enemy->SetDead(true);
 			}
 
 			if (glm::length(m_Player.GetPosition() - enemy->GetPosition()) < 5.0f){
@@ -46,9 +48,27 @@ void Game::Update(sf::Clock& gameTime){
 				enemy->SetAlert(false);
 			}
 			enemy->UpdatePOI(m_Level);
+			if (enemy->IsDead()){
+				GameObject* deadbody = new GameObject();
+				deadbody->SetPosition(enemy->GetPosition().x, enemy->GetPosition().y);
+				deadbody->SetRotation(enemy->GetRotation());
+				deadbody->SetTexture(&m_DeadEnemyTexture);
+				deadbody->SetSize(glm::vec2(0.5f, 1.0f) * 1.7f);
+				objectsToBeAdded.push_back(deadbody);
+			}
 		}
 	}
-
+	for (auto& it : objectsToBeAdded){
+		m_GameObjects.push_back(it);
+	}
+	objectsToBeAdded.clear();
+	for (int i = 0; i < m_GameObjects.size(); i++){
+		if (m_GameObjects[i]->IsDead()){
+			delete m_GameObjects[i];
+			m_GameObjects.erase(m_GameObjects.begin() + i);
+			i--;
+		}
+	}
 	CheckCollisions();
 }
 //render game state

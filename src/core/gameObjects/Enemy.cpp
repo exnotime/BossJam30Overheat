@@ -7,7 +7,6 @@ Enemy::Enemy(){
 	m_Origin = glm::vec2(60, 50);
 	m_Rotation = 0.0f;
 	m_Direction = glm::vec2(1, 0);
-	m_Eaten = false;
 	m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 100));
 	m_HP = 100.0f;
 }
@@ -18,15 +17,10 @@ Enemy::~Enemy(){
 }
 
 void Enemy::Draw(sf::RenderWindow* window) {
-	if (!m_Eaten){
-		GameObject::Draw(window);
-	}
+	GameObject::Draw(window);
 }
 
 void Enemy::Update(float dt){
-	if (m_Eaten){
-		return;
-	}
 	m_Direction = m_Goal - m_Position;
 	m_Direction = glm::normalize(m_Direction);
 	m_Origin = glm::vec2(60, 50);
@@ -48,10 +42,6 @@ void Enemy::Update(float dt){
 	GameObject::Update(dt);
 }
 
-void Enemy::SetEaten(bool eaten){
-	//m_Eaten = eaten;
-}
-
 void Enemy::SetAlert(bool alert){
 	if (alert){
 		m_Walking = false;
@@ -70,7 +60,7 @@ void Enemy::SetGoal(glm::vec2 goal){
 void Enemy::TakeDamage(float damage){
 	m_HP -= damage;
 	if (m_HP <= 0.0f){
-		m_Eaten = true;
+		m_Dead = true;
 	}
 }
 

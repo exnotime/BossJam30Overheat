@@ -15,6 +15,9 @@ public:
 	virtual void SetColor( const sf::Color& newColor );
 	virtual sf::FloatRect GetBoundingBox();
 	virtual glm::vec2 GetPosition();
+	virtual float GetRotation(){ return m_Rotation; };
+	virtual bool IsDead() { return m_Dead; };
+	virtual void SetDead(bool d) { m_Dead = d; };
 protected:
 	sf::Sprite	m_Sprite;
 
@@ -24,4 +27,5 @@ protected:
 	glm::vec2	m_Size;
 	float		m_Rotation;
 	sf::Color	m_Color;
+	bool		m_Dead = false;
 };
