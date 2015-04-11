@@ -2,10 +2,12 @@
 
 
 Enemy::Enemy(){
-	m_Origin = glm::vec2(60, 30);
+	m_Origin = glm::vec2(60, 50);
 	m_Rotation = 0.0f;
 	m_Direction = glm::vec2(1, 0);
 	m_Eaten = false;
+
+	m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 100));
 }
 
 
