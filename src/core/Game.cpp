@@ -9,6 +9,8 @@ Game::~Game(){
 }
 //load textures and audio
 void Game::Initialize(const sf::RenderWindow& window){
+	m_Level.Initialize( "asset/levels/0", m_GameObjects );
+
 	m_Texture.loadFromFile("asset/TigerCharacterSmaller.png");
 	m_TextureHuman.loadFromFile("asset/sprite/human/human.png");
 	m_Texture.setSmooth(true); //turn on aa
@@ -30,7 +32,6 @@ void Game::Initialize(const sf::RenderWindow& window){
 
 	m_GameObjects.push_back(go);
 	m_GameObjects.push_back(enemyTemp);
-	m_Level.Initialize( "asset/levels/0" );
 }
 //update game state
 void Game::Update(sf::Clock& gameTime){
