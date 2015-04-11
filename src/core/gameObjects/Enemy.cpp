@@ -9,6 +9,8 @@ Enemy::Enemy(){
 	m_Direction = glm::vec2(1, 0);
 	m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 100));
 	m_HP = 100.0f;
+	m_VisionDistance = 10.0f;
+	m_VisionCone = cosf(0.785398163);
 }
 
 
@@ -17,6 +19,9 @@ Enemy::~Enemy(){
 }
 
 void Enemy::Draw(sf::RenderWindow* window) {
+	if (m_Walking){
+		//render vision cone
+	}
 	GameObject::Draw(window);
 }
 
@@ -65,10 +70,12 @@ void Enemy::TakeDamage(float damage){
 }
 
 void Enemy::UpdatePOI(Level& level){
-	if (glm::distance(m_Goal, m_Position) < 0.01f){
-		m_Position = m_Goal;
-		glm::vec2 newGoal = level.GetClosestPOI(m_Position, m_Goal, m_OldGoal);
-		m_OldGoal = m_Goal;
-		m_Goal = newGoal;
-	}
+	m_Goal = level.GetNextGoal(m_Position);
+}
+
+float Enemy::GetVisionDist(){
+	return m_VisionDistance;
+}
+float Enemy::GetVisionCone(){
+	return m_VisionCone;
 }

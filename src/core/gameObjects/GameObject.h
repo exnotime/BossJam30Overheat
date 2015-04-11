@@ -16,6 +16,7 @@ public:
 	virtual sf::FloatRect GetBoundingBox();
 	virtual glm::vec2 GetPosition();
 	virtual float GetRotation(){ return m_Rotation; };
+	virtual glm::vec2 GetDirection(){ return m_Direction; };
 	virtual bool IsDead();
 	virtual void SetDead(bool d);
 protected:

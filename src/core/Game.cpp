@@ -17,14 +17,14 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_DeadEnemyTexture.setSmooth(true);
 	m_Font.loadFromFile("asset/arial.ttf");
 
-	m_Player.SetPosition( 0.0f, 0.0f );
+	m_Player.SetPosition( 27.0f, 43.0f );
 	m_Player.SetSize( glm::vec2( 1.0f, 3.0f ) );
 
 	Enemy *enemyTemp = new Enemy();
 	enemyTemp->SetTexture(&m_TextureHuman);
 	enemyTemp->SetPosition( 5.0f, 0.5f );
 	enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
-	enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
+	enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
 	m_GameObjects.push_back(enemyTemp);
 
 	m_HighScore = 0;
@@ -56,8 +56,10 @@ void Game::Update(sf::Clock& gameTime){
 		gameobject->Update(dt);
 		Enemy* enemy = dynamic_cast<Enemy*>(gameobject);
 		if (enemy){
-
-			if (glm::length(m_Player.GetPosition() - enemy->GetPosition()) < 5.0f){
+			//calc vision cone
+			glm::vec2 enemyToPlayer = m_Player.GetPosition() - enemy->GetPosition();
+			float angle = glm::dot(glm::normalize(enemyToPlayer), glm::normalize(enemy->GetDirection()));
+			if (glm::length(enemyToPlayer) < enemy->GetVisionDist() && angle > enemy->GetVisionCone()){
 				enemy->SetAlert(true);
 			} else {
 				enemy->SetAlert(false);
@@ -91,7 +93,7 @@ void Game::Update(sf::Clock& gameTime){
 		glm::vec2 pos = m_Level.GetRandomFreeTile();
 		enemyTemp->SetPosition(pos.x,pos.y );
 		enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
-		enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
+		enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
 		m_GameObjects.push_back(enemyTemp);
 		m_EnemySpawnTimer = 5.0f;
 	}

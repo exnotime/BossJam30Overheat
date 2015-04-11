@@ -25,7 +25,7 @@ class Level
 public:
 	void		Initialize( const std::string& levelFolderPath, std::vector<GameObject*>& gameObjects );
 	void		Draw( sf::RenderWindow* window ) const;
-	glm::vec2	GetClosestPOI(glm::vec2 pos, glm::vec2 currentGoal, glm::vec2 oldGoal);
+	glm::vec2	GetNextGoal(glm::vec2 pos);
 	bool		IsTileBlocked( int x, int y ) const;
 	glm::vec2	GetRandomFreeTile();
 
@@ -37,5 +37,6 @@ private:
 	std::vector<std::vector<LEVEL_FLOOR_TYPE>>	m_Floor;
 	std::vector<glm::vec2>						m_PointsOfInterest;
 	std::vector<std::vector<bool>>				m_BlockedTiles;
+	std::vector<std::vector<glm::vec2>>			m_FlowMap;
 	glm::vec2									m_LevelSize;
 };
