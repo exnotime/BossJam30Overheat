@@ -48,17 +48,24 @@ void Enemy::Update(float dt){
 	GameObject::Update(dt);
 }
 
-void Enemy::SetEaten(bool eaten)
-{
-	m_Eaten = eaten;
+void Enemy::SetEaten(bool eaten){
+	//m_Eaten = eaten;
 }
 
 void Enemy::SetAlert(bool alert){
 	if (alert){
 		m_Walking = false;
 		m_MovementSpeed = 2.5f;
-	}else{
+	}
+	else{
 		m_Walking = true;
 		m_MovementSpeed = 1.0f;
+	}
+}
+
+void Enemy::TakeDamage(float damage){
+	m_HP -= damage;
+	if (m_HP <= 0.0f){
+		m_Eaten = true;
 	}
 }
