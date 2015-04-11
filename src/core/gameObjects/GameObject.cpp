@@ -5,6 +5,7 @@ GameObject::GameObject() {
 	m_Direction = glm::vec2(0);
 	m_Origin = glm::vec2(0);
 	m_Rotation = 0.0f;
+	m_Color = sf::Color::White;
 }
 
 GameObject::~GameObject() {
@@ -16,6 +17,7 @@ void GameObject::Update(float dt) {
 	m_Sprite.setPosition(m_Position.x, m_Position.y);
 	m_Sprite.setOrigin(m_Origin.x, m_Origin.y);
 	m_Sprite.setRotation(m_Rotation);
+	m_Sprite.setColor( m_Color );
 }
 
 void GameObject::Draw(sf::RenderWindow* window) {
@@ -44,6 +46,10 @@ void GameObject::SetOrigin( const glm::vec2& newOrigin ) {
 void GameObject::SetSize( const glm::vec2& newSize ) {
 	m_Sprite.setScale( newSize.x / m_Sprite.getTextureRect().width, newSize.y / m_Sprite.getTextureRect().height );
 	m_Size = newSize;
+}
+
+void GameObject::SetColor( const sf::Color& newColor ) {
+	m_Color = newColor;
 }
 
 sf::FloatRect GameObject::GetBoundingBox(){

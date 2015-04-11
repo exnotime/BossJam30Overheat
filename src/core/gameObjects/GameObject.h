@@ -12,6 +12,7 @@ public:
 	virtual void SetRotation(float rot);
 	virtual void SetOrigin( const glm::vec2& newOrigin );
 	virtual void SetSize( const glm::vec2& newSize );
+	virtual void SetColor( const sf::Color& newColor );
 	virtual sf::FloatRect GetBoundingBox();
 	virtual glm::vec2 GetPosition();
 protected:
@@ -22,4 +23,5 @@ protected:
 	glm::vec2	m_Origin;
 	glm::vec2	m_Size;
 	float		m_Rotation;
+	sf::Color	m_Color;
 };
