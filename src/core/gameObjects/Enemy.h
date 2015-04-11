@@ -22,6 +22,3 @@ private:
 	static const int m_WalkAnimation[];
 	float m_HP;
 };
-
-
-
