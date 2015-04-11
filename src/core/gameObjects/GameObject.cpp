@@ -38,3 +38,7 @@ void GameObject::SetSize( const glm::vec2& newSize ) {
 sf::FloatRect GameObject::GetBoundingBox(){
 	return m_Sprite.getGlobalBounds();
 }
+
+glm::vec2 GameObject::GetPosition(){
+	return m_Position;
+}

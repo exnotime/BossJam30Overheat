@@ -11,6 +11,7 @@ public:
 	virtual void SetPosition(float x, float y);
 	virtual void SetSize( const glm::vec2& newSize );
 	virtual sf::FloatRect GetBoundingBox();
+	virtual glm::vec2 GetPosition();
 protected:
 	sf::Sprite	m_Sprite;
 

@@ -26,8 +26,8 @@ void Game::Initialize(const sf::RenderWindow& window){
 
 	Enemy *enemyTemp = new Enemy();
 	enemyTemp->SetTexture(&m_TextureHuman);
-	enemyTemp->SetPosition( 2.0f, 0.5f );
-	enemyTemp->SetSize( glm::vec2( 1.0f, 0.8f ) );
+	enemyTemp->SetPosition( 5.0f, 0.5f );
+	enemyTemp->SetSize( glm::vec2( 1.2f, 1.0f ) );
 
 	m_GameObjects.push_back(go);
 	m_GameObjects.push_back(enemyTemp);
@@ -46,8 +46,16 @@ void Game::Update(sf::Clock& gameTime){
 			{
 				enemy->SetEaten(true);
 			}
+
+			if (glm::length(m_Player.GetPosition() - enemy->GetPosition()) < 5.0f){
+				enemy->SetAlert(true);
+			} else {
+				enemy->SetAlert(false);
+			}
+				
 		}
 	}
+
 }
 //render game state
 void Game::Draw(sf::RenderWindow* window){

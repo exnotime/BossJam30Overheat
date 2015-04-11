@@ -35,7 +35,3 @@ void Player::Update(float dt) {
 	g_Camera.SetPosition(m_Position);
 	GameObject::Update(dt); //will update the sprite
 }
-
-glm::vec2& Player::GetPosition(){
-	return m_Position;
-}
