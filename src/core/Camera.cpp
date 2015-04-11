@@ -2,7 +2,7 @@
 
 Camera::Camera(){
 	m_View.setCenter(0, 0);
-	m_View.setSize(1920, 1080);
+	m_View.setSize(24, 13.5f);	// Multiple of ( 16, 9 ) to avoid stretching, by keeping aspect ratio correct.
 }
 
 Camera::~Camera() {

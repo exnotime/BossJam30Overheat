@@ -16,12 +16,16 @@ void Game::Initialize(const sf::RenderWindow& window){
 
 	GameObject* go = new GameObject();
 	go->SetTexture(&m_Texture);
+	go->SetSize( glm::vec2( 2.0f, 6.0f ) );
 
 	m_Player.SetTexture(&m_Texture);
+	m_Player.SetPosition( 0.0f, 0.0f );
+	m_Player.SetSize( glm::vec2( 1.0f, 3.0f ) );
 
 	Enemy *enemyTemp = new Enemy();
 	enemyTemp->SetTexture(&m_Texture);
-	enemyTemp->SetPosition(200, 50);
+	enemyTemp->SetPosition( 2.0f, 0.5f );
+	enemyTemp->SetSize( glm::vec2( 0.5f, 1.5f ) );
 
 	m_GameObjects.push_back(go);
 	m_GameObjects.push_back(enemyTemp);

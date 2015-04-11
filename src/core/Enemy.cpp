@@ -3,8 +3,6 @@
 
 Enemy::Enemy(){
 	m_Origin = glm::vec2(20, 20);
-	m_Position = glm::vec2(100);
-	m_Scale = 0.3f;
 	m_Rotation = 0.0f;
 	m_Direction = glm::vec2(100, 0);
 	m_Eaten = false;
@@ -17,7 +15,7 @@ Enemy::~Enemy(){
 
 void Enemy::Draw(sf::RenderWindow* window) {
 	if (!m_Eaten){
-		window->draw(m_Sprite);
+		GameObject::Draw(window);
 	}
 }
 
