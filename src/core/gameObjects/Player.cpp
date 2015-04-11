@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "../level/Level.h"
 
-const int Player::m_RunningAnimation[6] = { 0, 1, 2, 3, 4, 5 };
+const int Player::m_PouncingAnimation[3] = { 0, 1, 2};
 const int Player::m_WalkAnimation[6] = { 0, 1, 2, 3, 4, 5 };
 
 Player::Player() {
@@ -67,6 +67,11 @@ void Player::Update(float dt) {
 		m_AnimationTimer += dt * 10.0f;
 		int frame = (int)m_AnimationTimer;
 		m_Sprite.setTextureRect(sf::IntRect(120 * (m_WalkAnimation[frame % 6]), 0, 120, 450));
+	}
+	else if (m_Pouncing){
+		m_AnimationTimer += dt * 20.0f;
+		int frame = (int)m_AnimationTimer;
+		m_Sprite.setTextureRect(sf::IntRect(120 * (m_PouncingAnimation[frame % 3]), 900, 120, 450));
 	}
 	else if (!m_Walking&& !m_Mauling && !m_Pouncing){
 		m_Sprite.setTextureRect(sf::IntRect(120 * (0), 0, 120, 450));

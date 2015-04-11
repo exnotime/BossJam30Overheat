@@ -52,6 +52,10 @@ void Enemy::SetEaten(bool eaten){
 	//m_Eaten = eaten;
 }
 
+bool Enemy::GetEaten(){
+	return m_Eaten;
+}
+
 void Enemy::SetAlert(bool alert){
 	if (alert){
 		m_Walking = false;

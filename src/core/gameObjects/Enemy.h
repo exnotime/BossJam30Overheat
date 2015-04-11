@@ -11,6 +11,7 @@ public:
 	void Draw(sf::RenderWindow* window) override;
 	void Update(float dt) override;
 	void SetEaten(bool eaten);
+	bool GetEaten();
 	void SetAlert(bool alert);
 	void SetGoal(glm::vec2 goal);
 	void TakeDamage(float damage);

@@ -25,6 +25,17 @@ void Game::Initialize(const sf::RenderWindow& window){
 	enemyTemp->SetSize( glm::vec2( 0.6f, 0.5f ) );
 	enemyTemp->SetGoal(m_Level.GetClosestPOI(enemyTemp->GetPosition(), enemyTemp->GetPosition(), enemyTemp->GetPosition()));
 	m_GameObjects.push_back(enemyTemp);
+
+	m_HighScore = 0;
+	m_KillCount = 0;
+	m_KillStreak = 0;
+	m_TextHighScore = sf::Text("HighScore: ", m_Font, 30);
+	m_TextHighScore.setPosition(-630, -350);
+	m_TextHighScore.setString("HighScore: " + std::to_string(m_HighScore));
+	m_TextKillCount = sf::Text("Killcount: ", m_Font, 30);
+	m_TextKillCount.setPosition(-630, -310);
+	m_TextKillCount.setString("Killcount: " + std::to_string(m_KillCount));
+
 }
 //update game state
 void Game::Update(sf::Clock& gameTime){
@@ -51,6 +62,9 @@ void Game::Update(sf::Clock& gameTime){
 	}
 
 	CheckCollisions();
+
+	m_TextHighScore.setString("HighScore: " + std::to_string(m_HighScore));
+	m_TextKillCount.setString("Killcount: " + std::to_string(m_KillCount));
 }
 //render game state
 void Game::Draw(sf::RenderWindow* window){
@@ -61,6 +75,9 @@ void Game::Draw(sf::RenderWindow* window){
 		gameobject->Draw(window);
 	}
 	m_Player.Draw(window);
+	g_Camera.ApplyGUI(window);
+	window->draw(m_TextHighScore);
+	window->draw(m_TextKillCount);
 }
 
 void Game::Shutdown(){
@@ -71,26 +88,35 @@ void Game::Shutdown(){
 }
 
 void Game::CheckCollisions(){
-	sf::FloatRect playerRect;
-	sf::FloatRect enemyRect;
-
 	for (auto& gameobject : m_GameObjects) {
 		Enemy* enemy = dynamic_cast<Enemy*>(gameobject);
 		if (enemy){
-			if (m_Player.GetMauling()){
-				if (m_Player.GetBoundingBoxMaul().intersects(gameobject->GetBoundingBox()))
-				{
-					enemy->TakeDamage(m_Player.GetDamage());
+			if (!enemy->GetEaten()){
+				if (m_Player.GetMauling()){
+					if (m_Player.GetBoundingBoxMaul().intersects(gameobject->GetBoundingBox()))
+					{
+						enemy->TakeDamage(m_Player.GetDamage());
+						if (enemy->GetEaten()){
+							GiveScore(100);
+						}
+					}
 				}
-			}
-			if (m_Player.GetPouncing()){
-				if (m_Player.GetBoundingBoxPounce().intersects(gameobject->GetBoundingBox()))
-				{
-					enemy->TakeDamage(m_Player.GetDamage());
+				if (m_Player.GetPouncing()){
+					if (m_Player.GetBoundingBoxPounce().intersects(gameobject->GetBoundingBox()))
+					{
+						enemy->TakeDamage(m_Player.GetDamage());
+						if (enemy->GetEaten()){
+							GiveScore(200);
+						}
+					}
 				}
 			}
 		}
 	}
+}
 
-	//playerRect = m_Player.GetBoundingBoxMaul();
+void Game::GiveScore(unsigned int points){
+	m_HighScore += points;
+	m_KillCount += 1;
+	m_KillStreak += 1;
 }
