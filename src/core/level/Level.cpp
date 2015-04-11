@@ -12,6 +12,7 @@
 #define LEVEL_OBJECT_COLOR_LAMP		sf::Color::Black
 #define LEVEL_OBJECT_COLOR_BED		sf::Color::Green
 #define LEVEL_OBJECT_COLOR_BED_C	sf::Color( 2, 255, 3 )
+#define LEVEL_OBJECT_COLOR_WALL		sf::Color( 111, 111, 111 )
 
 void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObject*>& gameObjects ) {
 	m_FloorTextures[ LEVEL_FLOOR_TYPE_AISLE ].loadFromFile( "asset/sprite/floor/aisle.png" );
@@ -21,6 +22,7 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_TABLE ].loadFromFile( "asset/sprite/furniture/table.png" );
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_LAMP ].loadFromFile( "asset/sprite/furniture/lamp.png" );
 	m_ObjectTextures[ LEVEL_OBJECT_TYPE_BED ].loadFromFile( "asset/sprite/furniture/bed.png" );
+	m_ObjectTextures[ LEVEL_OBJECT_TYPE_WALL ].loadFromFile( "asset/sprite/levelStuff/wall.png" );
 
 	for ( int i = 0; i < LEVEL_FLOOR_TYPE_SIZE; ++i ) {
 		m_FloorTextures[i].setSmooth( true );
@@ -128,6 +130,14 @@ void Level::Initialize( const std::string& levelFolderPath, std::vector<GameObje
 				}
 
 				gameObjects.push_back( bed );
+			} else if ( texelColour == LEVEL_OBJECT_COLOR_WALL ) {
+				GameObject* wall = new GameObject();
+				wall->SetTexture( &m_ObjectTextures[ LEVEL_OBJECT_TYPE_WALL ] );
+				wall->SetPosition( x + 0.5f, y + 0.5f );
+				wall->SetSize( glm::vec2( 1.0f ) );
+				wall->SetColor( sf::Color( 20, 20, 20 ) );
+
+				gameObjects.push_back( wall );
 			} else {
 				// Do nothing.
 			}
