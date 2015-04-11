@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include <SFML/System.hpp>
-
 class Player : public GameObject {
 public:
 	Player();
@@ -14,10 +13,13 @@ public:
 	bool GetMauling();
 	bool GetPouncing();
 private:
-
-	const float MOVEMENT_SPEED = 4.0f;
-	const float MAULTIME = 1.0f;
-	const float POUNCETIME = 2.0f;
+	const float DEFAULT_SPEED = 4.0f;
+	float m_MovementSpeed = DEFAULT_SPEED;
+	const float MAULTIME = 0.1f;
+	const float MAUL_DELAY = -0.2f;
+	const float POUNCETIME = 0.2f;
+	const float POUNCE_DELAY = -3.0f;
+	
 
 	void CheckAttack(float dt);
 	void Maul();
@@ -25,6 +27,8 @@ private:
 
 	float m_Damage;
 	sf::Texture m_Texture;
+	glm::vec2 m_Direction;
+	glm::vec2 m_PounceDirection;
 
 	float m_MaulTimer;
 	float m_PounceTimer;

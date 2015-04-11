@@ -12,6 +12,7 @@ enum LEVEL_FLOOR_TYPE {
 
 enum LEVEL_OBJECT_TYPE {
 	LEVEL_OBJECT_TYPE_ARMCHAIR,
+	LEVEL_OBJECT_TYPE_TABLE,
 	LEVEL_OBJECT_TYPE_SOFA,
 	LEVEL_OBJECT_TYPE_SIZE,		// KEEP SECOND TO LAST!!!
 	LEVEL_OBJECT_TYPE_NONE		// KEEP LAST!!!
@@ -24,6 +25,8 @@ public:
 	void		Draw( sf::RenderWindow* window ) const;
 
 private:
+	bool										ColorIsTable( const sf::Color& color ) const;
+
 	sf::Texture									m_FloorTextures[ LEVEL_FLOOR_TYPE_SIZE ];
 	sf::Texture									m_ObjectTextures[ LEVEL_OBJECT_TYPE_SIZE ];
 	std::vector<std::vector<LEVEL_FLOOR_TYPE>>	m_Floor;

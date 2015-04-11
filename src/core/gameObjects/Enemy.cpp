@@ -2,6 +2,7 @@
 
 const int Enemy::m_RunningAnimation[8] = { 0, 1, 2, 1, 0, 3, 4, 3 };
 const int Enemy::m_WalkAnimation[6] = { 0, 1, 1, 0, 3, 3 };
+
 Enemy::Enemy(){
 	m_Origin = glm::vec2(60, 50);
 	m_Rotation = 0.0f;
@@ -54,7 +55,7 @@ void Enemy::SetEaten(bool eaten){
 void Enemy::SetAlert(bool alert){
 	if (alert){
 		m_Walking = false;
-		m_MovementSpeed = 2.5f;
+		m_MovementSpeed = 3.0f;
 	}
 	else{
 		m_Walking = true;

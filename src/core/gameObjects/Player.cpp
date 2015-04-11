@@ -14,8 +14,10 @@ Player::Player() {
 	m_Sprite.setTexture(m_Texture);
 	m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 450));
 	m_MaulTimer = 0.0f;
-	m_PounceTimer = 0.0f;
+	m_PounceTimer = POUNCE_DELAY - 1;
 	m_HP = 100.0f;
+	m_Direction = glm::vec2(0);
+	m_PounceDirection = glm::vec2(0);
 	m_Mauling = false;
 	m_Pouncing = false;
 	m_Walking = false;
@@ -27,27 +29,36 @@ Player::~Player() {
 
 
 void Player::Update(float dt) {
-
-
+	CheckAttack(dt);
 	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
 	aim = aim * 2.0f - 1.0f;
 	m_Rotation = (atan2f(aim.y, aim.x) + 3.14f * 0.5f) * 180.0f / 3.14f; //adjust for sprite
 	sf::Keyboard kb;
-
+	m_Direction = glm::vec2(0);
 	if (kb.isKeyPressed(sf::Keyboard::W)){
-		m_Position.y -= MOVEMENT_SPEED * dt;
-		m_Walking = true;
+		m_Direction += glm::vec2(0, -1);
 	}
 	if (kb.isKeyPressed(sf::Keyboard::S)){
-		m_Position.y += MOVEMENT_SPEED * dt;
-		m_Walking = true;
+		m_Direction += glm::vec2(0, 1);
 	}
 	if (kb.isKeyPressed(sf::Keyboard::D)){
-		m_Position.x += MOVEMENT_SPEED * dt;
-		m_Walking = true;
+		m_Direction += glm::vec2(1, 0);
 	}
 	if (kb.isKeyPressed(sf::Keyboard::A)){
-		m_Position.x -= MOVEMENT_SPEED * dt;
+		m_Direction += glm::vec2(-1, 0);
+	}
+
+	if (m_PounceTimer > 0.0f) {
+		m_Direction = m_PounceDirection;
+	}
+	if (!m_Mauling)
+		m_Position += m_Direction * m_MovementSpeed * dt;
+	g_Camera.SetPosition(m_Position);
+
+	if (m_Direction == glm::vec2(0, 0)){
+		m_Walking = false;
+	}
+	else{
 		m_Walking = true;
 	}
 
@@ -60,58 +71,51 @@ void Player::Update(float dt) {
 		m_Sprite.setTextureRect(sf::IntRect(120 * (0), 0, 120, 450));
 	}
 
-	g_Camera.SetPosition(m_Position);
 	GameObject::Update(dt); //will update the sprite
-
-	CheckAttack(dt);
 }
 
 
 void Player::CheckAttack(float dt){
 	sf::Mouse mouse;
 
-	if (mouse.isButtonPressed(mouse.Left)){
+	if (mouse.isButtonPressed(mouse.Left) && m_MaulTimer <= MAUL_DELAY){
 		Maul();
 	}
-	else if(mouse.isButtonPressed(mouse.Right)){
+	else if (mouse.isButtonPressed(mouse.Right) && m_PounceTimer <= POUNCE_DELAY){
 		Pounce();
 	}
-
-	if (m_MaulTimer != MAULTIME){
-		m_Mauling = false;
-	}
-	if (m_MaulTimer > 0.0f){
+	if (m_MaulTimer > MAUL_DELAY){
 		m_MaulTimer -= dt;
 	}
-
-	if (m_PounceTimer != POUNCETIME)
-	{
-		m_Pouncing = false;
+	if (m_MaulTimer <= 0.0f){
+		m_Mauling = false;
 	}
-	if (m_PounceTimer > 0.0f){
+	if (m_PounceTimer > POUNCE_DELAY){
 		m_PounceTimer -= dt;
 	}
-
+	if (m_PounceTimer <= 0.0f){
+		m_Pouncing = false;
+	}
 	if (m_MaulTimer <= 0.0f && m_PounceTimer <= 0.0f){
 		//m_Sprite.setTextureRect(sf::IntRect(0, 0, 120, 450));
+		m_MovementSpeed = DEFAULT_SPEED;
 	}
 }
 
 void Player::Maul(){
-	if (m_MaulTimer <= 0.0f){
-		m_Sprite.setTextureRect(sf::IntRect(120, 0, 120, 450));
-		m_MaulTimer = MAULTIME;
-		m_Mauling = true;
-	}
+	m_Sprite.setTextureRect(sf::IntRect(120, 0, 120, 450));
+	m_MaulTimer = MAULTIME;
+	m_Mauling = true;
 }
 
 void Player::Pounce(){
-	if (m_PounceTimer <= 0.0f)
-	{
-		m_Sprite.setTextureRect(sf::IntRect(240, 0, 120, 450));
-		m_PounceTimer = POUNCETIME;
-		m_Pouncing = true;
-	}
+	m_Sprite.setTextureRect(sf::IntRect(240, 0, 120, 450));
+	m_MovementSpeed = 20.0f;
+	m_PounceTimer = POUNCETIME;
+	glm::vec2 aim = glm::vec2(g_Mouse.Position().x, g_Mouse.Position().y) / glm::vec2(1280, 720);
+	m_PounceDirection = aim * 2.0f - 1.0f;
+	m_PounceDirection = glm::normalize(m_PounceDirection);
+	m_Pouncing = true;
 }
 
 sf::FloatRect Player::GetBoundingBoxMaul(){
