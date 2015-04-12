@@ -71,8 +71,6 @@ void Game::Update(sf::Clock& gameTime){
 			if (glm::length(enemyToPlayer) < enemy->GetVisionDist() && angle > enemy->GetVisionCone()){
 				if (VisionTest(enemy->GetPosition(), enemyToPlayer))
 					enemy->SetAlert(true);
-			} else {
-				enemy->SetAlert(false);
 			}
 			enemy->UpdatePOI(m_Level);
 			if (enemy->IsDead()){
