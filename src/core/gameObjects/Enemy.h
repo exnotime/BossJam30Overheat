@@ -23,6 +23,7 @@ private:
 	glm::vec2 m_Goal;
 	glm::vec2 m_OldGoal;
 	bool m_Walking = true;
+	bool m_StandingStill;
 	static const int m_RunningAnimation[];
 	static const int m_WalkAnimation[];
 	float m_HP;

@@ -23,7 +23,7 @@ public:
 	void GiveScore(unsigned int points);
 
 private:
-	bool VisionTest(glm::vec2 pos, glm::vec2 dir);
+	bool VisionTest(glm::vec2 pos, glm::vec2 target);
 	sf::Texture				m_Texture;
 	sf::Texture				m_TextureHuman;
 	sf::Texture				m_DeadEnemyTexture;

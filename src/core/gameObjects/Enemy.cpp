@@ -11,6 +11,7 @@ Enemy::Enemy(){
 	m_HP = 100.0f;
 	m_VisionDistance = 10.0f;
 	m_VisionCone = cosf(0.785398163);
+	m_StandingStill = rand() % 8 == 0 ? false : true;
 }
 
 
@@ -29,19 +30,22 @@ void Enemy::Update(float dt){
 	m_Direction = m_Goal - m_Position;
 	m_Direction = glm::normalize(m_Direction);
 	m_Origin = glm::vec2(60, 50);
+		m_Rotation = (atan2f(m_Direction.y,m_Direction.x) * 180.0f / 3.14f) + 90.0f; //adjust for sprite
 
-	m_Position += m_MovementSpeed * m_Direction * dt;
-	//look in the direction we are going
-	m_Rotation = (atan2f(m_Direction.y,m_Direction.x) * 180.0f / 3.14f) + 90.0f; //adjust for sprite
-	//animate
-	if (m_Walking){
-		m_AnimationTimer += dt * 10.0f;
-		int frame = (int)m_AnimationTimer;
-		m_Sprite.setTextureRect(sf::IntRect(120 * (m_WalkAnimation[frame % 6]), 0, 120, 100));
-	}else{
-		m_AnimationTimer += dt * 20.0f;
-		int frame = (int)m_AnimationTimer;
-		m_Sprite.setTextureRect(sf::IntRect(120 * (m_RunningAnimation[frame % 8]), 0, 120, 100));
+	if ( !m_StandingStill ) {
+		m_Position += m_MovementSpeed * m_Direction * dt;
+		//look in the direction we are going
+
+		//animate
+		if (m_Walking){
+			m_AnimationTimer += dt * 10.0f;
+			int frame = (int)m_AnimationTimer;
+			m_Sprite.setTextureRect(sf::IntRect(120 * (m_WalkAnimation[frame % 6]), 0, 120, 100));
+		}else{
+			m_AnimationTimer += dt * 20.0f;
+			int frame = (int)m_AnimationTimer;
+			m_Sprite.setTextureRect(sf::IntRect(120 * (m_RunningAnimation[frame % 8]), 0, 120, 100));
+		}
 	}
 
 	GameObject::Update(dt);
@@ -49,6 +53,7 @@ void Enemy::Update(float dt){
 
 void Enemy::SetAlert(bool alert){
 	if (alert){
+		m_StandingStill = false;
 		m_Walking = false;
 		m_MovementSpeed = 3.0f;
 	}

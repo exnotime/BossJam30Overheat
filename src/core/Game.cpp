@@ -33,6 +33,19 @@ void Game::Initialize(const sf::RenderWindow& window){
 	m_Boss.SetSize(glm::vec2(2.0f, 1.28f));
 	m_Boss.SetTexture(&m_TextureBossman);
 
+	for ( int i = 0; i < 70; ++i ) {
+		Enemy *enemyTemp = new Enemy();
+		enemyTemp->SetTexture(&m_TextureHuman);
+		glm::vec2 pos;
+		do {
+			pos = m_Level.GetRandomFreeTile();
+		} while ( glm::distance( pos, m_Player.GetPosition() ) < 13.0f );
+		enemyTemp->SetPosition(pos.x,pos.y );
+		enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
+		enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
+		m_GameObjects.push_back(enemyTemp);
+	}
+
 	m_HighScore = 0;
 	m_KillCount = 0;
 	m_KillStreak = 0;
@@ -69,7 +82,7 @@ void Game::Update(sf::Clock& gameTime){
 			glm::vec2 enemyToPlayer = m_Player.GetPosition() - enemy->GetPosition();
 			float angle = glm::dot(glm::normalize(enemyToPlayer), glm::normalize(enemy->GetDirection()));
 			if (glm::length(enemyToPlayer) < enemy->GetVisionDist() && angle > enemy->GetVisionCone()){
-				if (VisionTest(enemy->GetPosition(), enemyToPlayer))
+				if (VisionTest(enemy->GetPosition(), m_Player.GetPosition()))
 					enemy->SetAlert(true);
 			} else {
 				enemy->SetAlert(false);
@@ -86,7 +99,7 @@ void Game::Update(sf::Clock& gameTime){
 		}
 	}
 	for (auto& it : objectsToBeAdded){
-		m_GameObjects.push_back(it);
+		m_GameObjects.insert( m_GameObjects.begin(), it);
 	}
 	objectsToBeAdded.clear();
 	for (int i = 0; i < (int)m_GameObjects.size(); i++){
@@ -96,17 +109,17 @@ void Game::Update(sf::Clock& gameTime){
 			i--;
 		}
 	}
-	m_EnemySpawnTimer -= dt;
-	if (m_EnemySpawnTimer <= 0.0f){
-		Enemy *enemyTemp = new Enemy();
-		enemyTemp->SetTexture(&m_TextureHuman);
-		glm::vec2 pos = m_Level.GetRandomFreeTile();
-		enemyTemp->SetPosition(pos.x,pos.y );
-		enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
-		enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
-		m_GameObjects.push_back(enemyTemp);
-		m_EnemySpawnTimer = 5.0f;
-	}
+	//m_EnemySpawnTimer -= dt;
+	//if (m_EnemySpawnTimer <= 0.0f){
+	//	Enemy *enemyTemp = new Enemy();
+	//	enemyTemp->SetTexture(&m_TextureHuman);
+	//	glm::vec2 pos = m_Level.GetRandomFreeTile();
+	//	enemyTemp->SetPosition(pos.x,pos.y );
+	//	enemyTemp->SetSize(glm::vec2(0.6f, 0.5f) * 1.3f);
+	//	enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
+	//	m_GameObjects.push_back(enemyTemp);
+	//	m_EnemySpawnTimer = 5.0f;
+	//}
 	CheckCollisions();
 	m_TimerKillStreak -= dt;
 	if (m_TimerKillStreak > 0.0f){
@@ -198,12 +211,13 @@ void Game::GiveScore(unsigned int points){
 	m_TimerKillStreak = 3.0f;
 }
 
-bool Game::VisionTest(glm::vec2 pos, glm::vec2 dir){
+bool Game::VisionTest(glm::vec2 pos, glm::vec2 target){
 	glm::vec2 testpos;
 	int nSamples = 1000;
-	glm::vec2 normDir = glm::normalize(dir);
+	float maxDist = glm::min( 10.0f, glm::length( target - pos ) );
+	glm::vec2 normDir = glm::normalize( target - pos );
 	for (int i = 0; i < nSamples; i++){
-		float dist = (i / (float)nSamples) * 10.0f;
+		float dist = (i / (float)nSamples) * maxDist;
 		testpos = pos + normDir * dist;
 		if (m_Level.IsTileBlocked(testpos.x, testpos.y)){
 			return false;
