@@ -58,7 +58,7 @@ void Game::Update(sf::Clock& gameTime){
 	m_Player.ContainWithinLevel( m_Level );
 
 	m_Boss.Update(dt);
-	m_Boss.UpdatePOI( m_Level );
+	m_Boss.UpdatePOI( m_Level, m_Player.GetPosition(), dt );
 
 	std::vector<GameObject*> objectsToBeAdded;
 	for (auto& gameobject : m_GameObjects) {
