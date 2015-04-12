@@ -68,7 +68,8 @@ void Game::Update(sf::Clock& gameTime){
 			glm::vec2 enemyToPlayer = m_Player.GetPosition() - enemy->GetPosition();
 			float angle = glm::dot(glm::normalize(enemyToPlayer), glm::normalize(enemy->GetDirection()));
 			if (glm::length(enemyToPlayer) < enemy->GetVisionDist() && angle > enemy->GetVisionCone()){
-				enemy->SetAlert(true);
+				if (VisionTest(enemy->GetPosition(), enemyToPlayer))
+					enemy->SetAlert(true);
 			} else {
 				enemy->SetAlert(false);
 			}
@@ -194,4 +195,18 @@ void Game::GiveScore(unsigned int points){
 	m_KillCount += 1;
 	m_KillStreak += 1;
 	m_TimerKillStreak = 3.0f;
+}
+
+bool Game::VisionTest(glm::vec2 pos, glm::vec2 dir){
+	glm::vec2 testpos;
+	int nSamples = 1000;
+	glm::vec2 normDir = glm::normalize(dir);
+	for (int i = 0; i < nSamples; i++){
+		float dist = (i / (float)nSamples) * 10.0f;
+		testpos = pos + normDir * dist;
+		if (m_Level.IsTileBlocked(testpos.x, testpos.y)){
+			return false;
+		}
+	}
+	return true;
 }
