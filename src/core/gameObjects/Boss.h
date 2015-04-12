@@ -14,14 +14,11 @@ public:
 	void SetGoal(glm::vec2 goal);
 
 	void UpdatePOI(Level& level, const glm::vec2& targetPosition, float deltaTime);
+	void Shot();
+	bool BulletHit(sf::FloatRect playerRect);
 
 private:
 	float m_MovementSpeed = 2.0f;
-
-	void Shot();
-	bool BulletHit(sf::FloatRect playerRect);
-private:
-
 	float m_AnimationTimer = 0.0f;
 	glm::vec2 m_Goal;
 	glm::vec2 m_OldGoal;

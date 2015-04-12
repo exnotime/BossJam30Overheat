@@ -39,7 +39,7 @@ void Boss::Update(float dt){
 		m_Direction = glm::normalize(m_Direction);
 		m_Position += m_MovementSpeed * m_Direction * dt;
 		//look in the direction we are going
-		m_Rotation = (atan2f(m_Direction.y, m_Direction.x) * 180.0f / 3.14f) + 270.0f; //adjust for sprite
+		m_Rotation = (atan2f(m_Direction.y, m_Direction.x) * 180.0f / 3.14f) + 90.0f; //adjust for sprite
 	} else {
 		m_Position = m_Goal;
 		if ( !m_Path.empty() ) {
@@ -161,5 +161,4 @@ void Boss::UpdatePOI(Level& level, const glm::vec2& targetPosition, float deltaT
 		}
 	}
 	visionPrev = vision;
-	return false;
 }
