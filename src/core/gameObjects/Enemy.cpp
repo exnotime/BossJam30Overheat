@@ -13,6 +13,7 @@ Enemy::Enemy(){
 	m_VisionCone = cosf(0.785398163);
 	m_StandingStill = rand() % 8 == 0 ? false : true;
 	m_TimerInvinsible = 0.0f;
+	m_VisualiseDamage = true;
 }
 
 

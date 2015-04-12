@@ -35,4 +35,5 @@ protected:
 	float m_TimerInvinsible;
 	const float m_TimerInvinsibleMaxTime = 0.3f;
 	float m_HP;
+	bool m_VisualiseDamage = false;
 };

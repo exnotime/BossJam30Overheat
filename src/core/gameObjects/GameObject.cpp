@@ -17,7 +17,8 @@ void GameObject::Update(float dt) {
 	m_Sprite.setPosition(m_Position.x, m_Position.y);
 	m_Sprite.setOrigin(m_Origin.x, m_Origin.y);
 	m_Sprite.setRotation(m_Rotation);
-	if ( m_TimerInvinsible < 0.0f )
+
+	if ( !m_VisualiseDamage || m_TimerInvinsible < 0.0f )
 		m_Sprite.setColor( m_Color );
 	else
 		m_Sprite.setColor( sf::Color::Red );
