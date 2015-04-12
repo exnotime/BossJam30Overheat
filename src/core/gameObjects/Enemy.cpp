@@ -11,6 +11,7 @@ Enemy::Enemy(){
 	m_HP = 100.0f;
 	m_VisionDistance = 10.0f;
 	m_VisionCone = cosf(0.785398163);
+	m_TimerInvinsible = 0.0f;
 }
 
 
@@ -44,6 +45,7 @@ void Enemy::Update(float dt){
 		m_Sprite.setTextureRect(sf::IntRect(120 * (m_RunningAnimation[frame % 8]), 0, 120, 100));
 	}
 
+	m_TimerInvinsible -= dt;
 	GameObject::Update(dt);
 }
 
@@ -62,12 +64,7 @@ void Enemy::SetGoal(glm::vec2 goal){
 	m_Goal = goal;
 }
 
-void Enemy::TakeDamage(float damage){
-	m_HP -= damage;
-	if (m_HP <= 0.0f){
-		m_Dead = true;
-	}
-}
+
 
 void Enemy::UpdatePOI(Level& level){
 	m_Goal = level.GetNextGoal(m_Position);

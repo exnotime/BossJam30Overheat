@@ -8,8 +8,12 @@ const int Boss::m_WalkAnimation[4] = { 0, 1, 0, 2 };
 Boss::Boss(){
 	m_Rotation = 0.0f;
 	m_Direction = glm::vec2(1, 0);
-	m_Sprite.setTextureRect(sf::IntRect(0, 0, 262, 168));
-	m_HP = 100.0f;
+	m_Sprite.setTextureRect(sf::IntRect(0, 0, 262, 200));
+	m_HP = 1000.0f;
+	m_TextureProjectile.loadFromFile("asset/sprite/boss/Projectile.png");
+	m_TextureProjectile.setSmooth(true);
+	
+	m_ShootingTimer = 0.0f;
 }
 
 
@@ -18,7 +22,13 @@ Boss::~Boss(){
 }
 
 void Boss::Draw(sf::RenderWindow* window) {
-	GameObject::Draw(window);
+	if (!m_Dead){
+		GameObject::Draw(window);
+	}
+
+	for (auto& projectile : m_Projectiles) {
+		projectile.Draw(window);
+	}
 }
 
 void Boss::Update(float dt){
@@ -42,17 +52,38 @@ void Boss::Update(float dt){
 	}
 	//animate
 	if (m_Walking){
-		m_AnimationTimer += dt * 10.0f;
+		m_AnimationTimer += dt * 5.0f;
 		int frame = (int)m_AnimationTimer;
-		m_Sprite.setTextureRect(sf::IntRect(262 * (m_WalkAnimation[frame % 4]), 0, 262, 168));
+		m_Sprite.setTextureRect(sf::IntRect(262 * (m_WalkAnimation[frame % 4]), 0, 262, 200));
 	}
 	else{
-		/*m_AnimationTimer += dt * 20.0f;
-		int frame = (int)m_AnimationTimer;
-		m_Sprite.setTextureRect(sf::IntRect(120 * (m_RunningAnimation[frame % 8]), 0, 120, 100));
-	*/}
+		//m_AnimationTimer += dt * 20.0f;
+		//int frame = (int)m_AnimationTimer;
+		m_Sprite.setTextureRect(sf::IntRect(0, 0, 262, 200));
+	}
+	if (m_Shooting){
+		m_Sprite.setTextureRect(sf::IntRect(0, 200, 262, 200));
+	}
 
+	m_TimerInvinsible -= dt;
 	GameObject::Update(dt);
+
+	for (auto& projectile : m_Projectiles) {
+		projectile.UpdatePosition(dt, 5.0f);
+		projectile.Update(dt);
+	}
+
+	if (m_ShootingTimer > 0.0f){
+		m_ShootingTimer -= dt;
+		m_Shooting = true;
+	}
+	else {
+		m_Shooting = false;
+	}
+
+	if (m_Dead){
+		m_Projectiles.clear();
+	}
 }
 
 void Boss::SetGoal(glm::vec2 goal){
@@ -60,12 +91,39 @@ void Boss::SetGoal(glm::vec2 goal){
 }
 
 void Boss::TakeDamage(float damage){
-	m_HP -= damage;
-	if (m_HP <= 0.0f){
-		m_Dead = true;
+	if (m_TimerInvinsible < 0.0f){
+		m_HP -= damage;
+		if (m_HP <= 0.0f){
+			m_Dead = true;
+		}
+		m_TimerInvinsible = m_TimerInvinsibleMaxTime;
+
+		Shot();
 	}
-<<<<<<< HEAD
-=======
+}
+
+void Boss::Shot(){
+	GameObject m_TempProjectile;
+	m_TempProjectile.SetTexture(&m_TextureProjectile);
+	m_TempProjectile.SetSize(glm::vec2(0.3f, 0.3f));
+	m_TempProjectile.SetPosition(m_Position.x + (0.8f * m_Direction.x - 0.5f), m_Position.y + (0.8f * m_Direction.y - 0.5f));
+	m_TempProjectile.SetRotation(m_Rotation);
+	m_TempProjectile.SetDirection(m_Direction);
+	m_Projectiles.push_back(m_TempProjectile);
+
+	m_ShootingTimer = m_ShootingTimerMax;
+}
+
+bool Boss::BulletHit(sf::FloatRect playerRect){
+	for (auto& projectile : m_Projectiles) {
+		if (!projectile.IsDead()){
+			if (playerRect.intersects(projectile.GetBoundingBox())){
+				projectile.SetDead(true);
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void Boss::UpdatePOI(Level& level, const glm::vec2& targetPosition, float deltaTime ){
@@ -103,5 +161,5 @@ void Boss::UpdatePOI(Level& level, const glm::vec2& targetPosition, float deltaT
 		}
 	}
 	visionPrev = vision;
->>>>>>> bb90e872cd2bd14b4a8ef583d174bafc3cc1cbc0
+	return false;
 }

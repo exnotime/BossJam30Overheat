@@ -16,9 +16,12 @@ public:
 	virtual sf::FloatRect GetBoundingBox();
 	virtual glm::vec2 GetPosition();
 	virtual float GetRotation(){ return m_Rotation; };
+	virtual void SetDirection(glm::vec2 direction);
 	virtual glm::vec2 GetDirection(){ return m_Direction; };
 	virtual bool IsDead();
 	virtual void SetDead(bool d);
+	virtual void UpdatePosition(float dt, float speed); 
+	virtual void TakeDamage(float damage);
 protected:
 	sf::Sprite	m_Sprite;
 
@@ -29,4 +32,7 @@ protected:
 	float		m_Rotation;
 	sf::Color	m_Color;
 	bool		m_Dead = false;
+	float m_TimerInvinsible;
+	const float m_TimerInvinsibleMaxTime = 0.3f;
+	float m_HP;
 };
