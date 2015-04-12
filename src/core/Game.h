@@ -23,7 +23,7 @@ public:
 	void GiveScore(unsigned int points);
 
 private:
-	//these are all just example variables
+	bool VisionTest(glm::vec2 pos, glm::vec2 dir);
 	sf::Texture				m_Texture;
 	sf::Texture				m_TextureHuman;
 	sf::Texture				m_DeadEnemyTexture;
