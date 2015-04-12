@@ -17,7 +17,10 @@ void GameObject::Update(float dt) {
 	m_Sprite.setPosition(m_Position.x, m_Position.y);
 	m_Sprite.setOrigin(m_Origin.x, m_Origin.y);
 	m_Sprite.setRotation(m_Rotation);
-	m_Sprite.setColor( m_Color );
+	if ( m_TimerInvinsible < 0.0f )
+		m_Sprite.setColor( m_Color );
+	else
+		m_Sprite.setColor( sf::Color::Red );
 }
 
 void GameObject::Draw(sf::RenderWindow* window) {

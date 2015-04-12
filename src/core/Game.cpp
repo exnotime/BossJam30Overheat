@@ -151,6 +151,9 @@ void Game::CheckCollisions(){
 					if (m_Player.GetBoundingBoxMaul().intersects(gameobject->GetBoundingBox()))
 					{
 						enemy->TakeDamage(m_Player.GetDamage());
+						glm::vec2 knockback = enemy->GetPosition() + glm::normalize( enemy->GetPosition() - m_Player.GetPosition() ) * 0.1f;
+						enemy->SetPosition( knockback.x, knockback.y );
+						enemy->SetAlert( true );
 						if (enemy->IsDead()){
 							GiveScore(100);
 						}
@@ -160,6 +163,9 @@ void Game::CheckCollisions(){
 					if (m_Player.GetBoundingBoxPounce().intersects(gameobject->GetBoundingBox()))
 					{
 						enemy->TakeDamage(m_Player.GetDamage());
+						glm::vec2 knockback = enemy->GetPosition() + glm::normalize( enemy->GetPosition() - m_Player.GetPosition() ) * 0.1f;
+						enemy->SetPosition( knockback.x, knockback.y );
+						enemy->SetAlert( true );
 						if (enemy->IsDead()){
 							GiveScore(200);
 						}
@@ -175,6 +181,8 @@ void Game::CheckCollisions(){
 			if (m_Player.GetBoundingBoxMaul().intersects(m_Boss.GetBoundingBox()))
 			{
 				m_Boss.TakeDamage(m_Player.GetDamage());
+				glm::vec2 knockback = m_Boss.GetPosition() + glm::normalize( m_Boss.GetPosition() - m_Player.GetPosition() ) * 0.1f;
+				m_Boss.SetPosition( knockback.x, knockback.y );
 				if (m_Boss.IsDead()){
 					GiveScore(5000);
 				}
@@ -184,6 +192,8 @@ void Game::CheckCollisions(){
 			if (m_Player.GetBoundingBoxPounce().intersects(m_Boss.GetBoundingBox()))
 			{
 				m_Boss.TakeDamage(m_Player.GetDamage());
+				glm::vec2 knockback = m_Boss.GetPosition() + glm::normalize( m_Boss.GetPosition() - m_Player.GetPosition() ) * 0.1f;
+				m_Boss.SetPosition( knockback.x, knockback.y );
 				if (m_Boss.IsDead()){
 					GiveScore(5500);
 				}
