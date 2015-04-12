@@ -29,7 +29,7 @@ void Game::Initialize(const sf::RenderWindow& window){
 	enemyTemp->SetGoal(m_Level.GetNextGoal(enemyTemp->GetPosition()));
 	m_GameObjects.push_back(enemyTemp);
 
-	m_Boss.SetPosition( 28.0f, 44.0f );
+	m_Boss.SetPosition( 10.0f, 43.0f );
 	m_Boss.SetSize(glm::vec2(2.0f, 1.56f));
 	m_Boss.SetTexture(&m_TextureBossman);
 
