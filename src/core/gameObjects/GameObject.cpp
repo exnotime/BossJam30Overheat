@@ -72,3 +72,21 @@ bool GameObject::IsDead() {
 void GameObject::SetDead(bool d) { 
 	m_Dead = d;
 }
+
+void GameObject::SetDirection(glm::vec2 direction){
+	m_Direction = direction;
+}
+
+void GameObject::UpdatePosition(float dt, float speed){
+	m_Position += m_Direction * dt * speed;
+}
+
+void GameObject::TakeDamage(float damage){
+	if (m_TimerInvinsible < 0.0f){
+		m_HP -= damage;
+		if (m_HP <= 0.0f){
+			m_Dead = true;
+		}
+		m_TimerInvinsible = m_TimerInvinsibleMaxTime;
+	}
+}
