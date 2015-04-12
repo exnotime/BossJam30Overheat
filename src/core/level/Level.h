@@ -28,6 +28,10 @@ public:
 	glm::vec2	GetNextGoal(glm::vec2 pos);
 	bool		IsTileBlocked( int x, int y ) const;
 	glm::vec2	GetRandomFreeTile();
+	int			getWidth() const { return m_LevelSize.x; }
+	int			getHeight() const {return m_LevelSize.y;}
+	int			getSize() const {return this->getWidth() * this->getHeight();}
+	bool		isWalkable(int x, int y) const { return !this->IsTileBlocked( x, y ); };
 
 private:
 	bool										ColorIsTable( const sf::Color& color ) const;
