@@ -12,7 +12,7 @@ public:
 	void Update(float dt) override;
 	void SetAlert(bool alert);
 	void SetGoal(glm::vec2 goal);
-	void TakeDamage(float damage);
+	
 	void UpdatePOI(Level& level);
 
 	float GetVisionDist();
@@ -23,9 +23,10 @@ private:
 	glm::vec2 m_Goal;
 	glm::vec2 m_OldGoal;
 	bool m_Walking = true;
+	bool m_StandingStill;
 	static const int m_RunningAnimation[];
 	static const int m_WalkAnimation[];
-	float m_HP;
 	float m_VisionCone; //cos(angle)
 	float m_VisionDistance;
+
 };

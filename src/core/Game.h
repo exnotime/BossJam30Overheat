@@ -21,13 +21,16 @@ public:
 
 	void CheckCollisions();
 	void GiveScore(unsigned int points);
+	void HighScoreText(float dt);
+	void GameOver();
 
 private:
-	bool VisionTest(glm::vec2 pos, glm::vec2 dir);
+	bool VisionTest(glm::vec2 pos, glm::vec2 target);
 	sf::Texture				m_Texture;
 	sf::Texture				m_TextureHuman;
 	sf::Texture				m_DeadEnemyTexture;
 	sf::Texture				m_TextureBossman;
+	sf::Texture				m_TextureProjectile;
 	sf::Font				m_Font;
 	Player					m_Player;
 	std::vector<GameObject*> m_GameObjects;
