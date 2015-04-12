@@ -79,11 +79,13 @@ void Game::Update(sf::Clock& gameTime){
 				deadbody->SetRotation(enemy->GetRotation());
 				deadbody->SetTexture(&m_DeadEnemyTexture);
 				deadbody->SetSize(glm::vec2(0.5f, 1.0f) * 1.7f);
+				deadbody->Update(dt);
 				objectsToBeAdded.push_back(deadbody);
 			}
 		}
 	}
 	for (auto& it : objectsToBeAdded){
+		it->Update(dt);
 		m_GameObjects.push_back(it);
 	}
 	objectsToBeAdded.clear();
